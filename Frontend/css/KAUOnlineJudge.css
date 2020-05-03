@@ -1,0 +1,44 @@
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+/*전체 영역*/
+* {
+    font-family: 'Nanum Gothic';
+}
+footer {
+    background-color: #eeeeee;
+    color: #bbbbbb
+}
+footer div {
+    text-align: center;
+}
+footer a,
+footer a:hover {
+    color: #bbbbbb
+}
+.jumbotron *{
+    left:25%;
+}
+
+
+/*문제 태그 영역*/
+span.easy {
+    background-color: #00bb00;
+    color: white
+}
+span.medium {
+    background-color: #eeee00;
+    color: black
+}
+span.hard {
+    background-color: #bb0000;
+    color: white
+}
+span.tag {
+    background-color: #aaaaaa;
+    color:white
+}
+span.correct {
+    color: #00bb00
+}
+span.wrong {
+    color: #ee0000
+}

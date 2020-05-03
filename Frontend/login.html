@@ -18,13 +18,6 @@
         <title>KAU Online Judge</title>
     </head>
     <body>
-        <style type="text/css">
-        .jumbotron {
-            background-size: cover;
-            text-shadow: black 0.2mm 0.2mm 0.2mm;
-            color: white;
-        }
-        </style>
         <!--상단바 시작-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="index.html">항공대 OJ</a> 
@@ -80,23 +73,34 @@
             </div> <!--메뉴 끝-->
         </nav> <!--상단바 끝-->
         <br>
-
-        <!--
-            아무거나 집어넣었습니다
-        -->
-        <div class="container">
-            <div 
-                class="jumbotron"
-                style="background-image: url('images/code.JPG');">
-                <h1 class="text-center">부트스트랩 사용</h1>
-                <p>브라우저 환경에 따라 페이지가 자동으로 변경됨</p>
-                <p class="text-center">
-                    <a class="btn btn-primary" href="#" role="button">
-                    버튼
-                    </a>
-                </p>
-                </div>
-          </div>
+        
+        <div class="jumbotron wrap"> 
+            <div class="card col-sm-6">
+                <article class="card-body">
+                <a href="" class="float-right btn btn-outline-primary">회원가입</a>
+                <h4 class="card-title mb-4 mt-1">로그인</h4>
+                <form>
+                    <div class="form-group">
+                        <label>이메일</label>
+                        <input name="" class="form-control" placeholder="example@example.com" type="email">
+                    </div> <!-- form-group// -->
+                    <div class="form-group">
+                        <a class="float-right" href="#">비밀번호 찾기</a>
+                        <label>비밀번호</label>
+                        <input class="form-control" placeholder="******" type="password">
+                    </div> <!-- form-group// --> 
+                    <div class="form-group"> 
+                        <div class="checkbox">
+                            <label> <input type="checkbox">비밀번호 저장</label>
+                        </div> <!-- checkbox .// -->
+                    </div> <!-- form-group// -->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block"> 제출</button>
+                    </div> <!-- form-group//-->
+                    </form>
+                </article>
+            </div> <!-- card.// -->
+        </div>
 
         <hr>
         <footer>
