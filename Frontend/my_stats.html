@@ -1,11 +1,5 @@
 <!doctype html>
 
-<!--
-    실질적으로 무슨 기능을 하는 페이지가 아니라
-    상단의 내비게이션 바, 하단의 footer 등
-    모든 페이지에 들어가야 할 기능을 저장해 둔 코드
--->
-
 <html lang="en">
     <head>
         <!-- Required meta tags -->
@@ -23,6 +17,9 @@
         <link rel="stylesheet" href="css/KAUOnlineJudge.css">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <!--원그래프용 scropt-->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
         <title>KAU Online Judge</title>
     </head>
@@ -82,10 +79,32 @@
             </div> <!--메뉴 끝-->
         </nav> <!--상단바 끝-->
         <br>
-        
-        <!--
-            작성할 내용
-        -->
+
+        <div class="container col-8">
+            <h3>사용자 이름</h3>
+            <hr>
+            <div class="card col-6"> 
+                <canvas id="test_chart"></canvas> 
+            </div> 
+        </div>
+
+        <script> 
+            // 도넛형 차트 
+            var myDoughnutChart = new Chart(
+                document.getElementById("test_chart"), {
+                    type: 'doughnut',
+                    title: '사용자 이름',
+                    data: { 
+                        datasets: [{ 
+                            backgroundColor: ['blue', 'red', 'yellow'], 
+                            data: [487, 380, 190] 
+                        }], 
+                        // 라벨의 이름이 툴팁처럼 마우스가 근처에 오면 나타남 
+                        labels: ['정답', '오답', '컴파일 에러']
+                    }
+                }
+            ); 
+        </script>
 
         <hr>
         <footer>
