@@ -1,0 +1,25 @@
+{
+    "name": "A + B",
+    "table":
+    {
+        "time_limit": 2,
+        "mem_limit": 128,
+        "tag": ["쉬움", "사칙연산", "수학"],
+        "submit": "정답",
+        "cnt_correct": "86352",
+        "pcnt_correct": "44.8"
+    },
+    "info": "두 정수 A와 B를 입력받은 다음, A + B를 출력하는 프로그램을 작성하시오.",
+    "input": "첫째 줄에 A와 B가 주어진다. (0 &#60; A, B &#60; 10)",
+    "output": "첫째 줄에 A와 B의 합을 출력한다.",
+    "sample": [
+        {
+            "input": "1 2",
+            "output": "3"
+        },
+        {
+            "input": "3 4",
+            "output": "7"
+        }
+    ]
+}

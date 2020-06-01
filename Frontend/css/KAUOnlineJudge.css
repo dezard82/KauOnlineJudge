@@ -3,6 +3,11 @@
 * {
     font-family: 'Nanum Gothic';
 }
+
+.text-white {
+    color: white;
+}
+
 footer {
     background-color: #eeeeee;
     color: #aaaaaa;
