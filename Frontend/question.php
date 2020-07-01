@@ -31,9 +31,16 @@
 
         <!-- 문제 이름 -->
         <div id="problem_name">
-            <h1><?php echo $json['name'] ?></h1>
+            <h1><?php #코드 제출 페이지로 이동
+                echo $json['name'].
+                '<button 
+                    type="button" 
+                    class="btn btn-link"
+                    onclick="location.href=\'http://115.136.47.152/question_solver.php?num='.$num.'\'">
+                    코드 제출
+                </button>'
+            ?></h1>
         </div>
-        <hr>
 
         <!-- 문제의 시간/메모리 제한과 태그, 제출 정보를 나타내는 table -->
         <table class="table table-striped">
