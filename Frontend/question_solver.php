@@ -57,6 +57,8 @@
         onkeydown="resize(this)" 
         onkeyup="resize(this)"
         rows="5"></textarea>
+        <br>
+        <a class="btn btn-primary text-white" role="button">제출</a>
     </div>
 
     <script>

@@ -20,6 +20,10 @@ footer a:hover {
     color: #aaaaaa;
 }
 
+a.btn {
+    color: #aaaaaa;
+}
+
 /*문제 페이지 영역*/
 div#problem_table table {
     font-size: small;
