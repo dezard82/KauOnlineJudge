@@ -1,15 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
-    <?php echo file_get_contents("html/head.html") ?>
+    <?php include "html/head.html" ?>
     <title>KAU Online Judge</title>
 </head>
 <body>
-    <?php echo file_get_contents("html/menu_bar.html") ?>
-        
-    <!--
-        작성할 내용
-    -->
+    <?php include "html/menu_bar.php" ?>
     
     <div class="container">
         <?php 
@@ -145,8 +141,6 @@
         </div> <!--문제 정보 끝-->
     </div>
 
-    <?php echo file_get_contents("html/footer.html") ?>
-
     <script>
         // 클립보드로 복사하는 기능을 생성
         function copyToClipboard(elementId) {
@@ -164,5 +158,7 @@
             document.body.removeChild(aux);
         }
     </script>
+
+    <?php include "html/footer.html" ?>
 </body>
 </html>

@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!--상단바 시작-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="http://115.136.47.152">항공대 OJ</a> 
@@ -34,12 +37,31 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="http://115.136.47.152/login.php">내 기록</a>
+                
+                <?php
+                    if (isset($_SESSION['username']))
+                    {
+                        $href = "http://115.136.47.152/index.php?p=my_stats.html";
+                        echo '<a class="nav-link" href="'.$href.'">'.$_SESSION['username'].'의 정보</a>';
+                    }
+                    else
+                    {
+                        $href = "http://115.136.47.152/login.php";
+                        echo '<a class="nav-link" href="'.$href.'">내 정보</a>';
+                    }
+                    
+                ?> 
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">랭킹</a>
             </li>
         </ul>
+
+        <?php
+            if (isset($_SESSION['username']))
+                echo '<a href="http://115.136.47.152/logout.php">로그아웃</a>';
+            else echo '<a href="http://115.136.47.152/login.php">로그인</a>';
+        ?> 
         <!--검색창-->
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="검색" aria-label="Search">
