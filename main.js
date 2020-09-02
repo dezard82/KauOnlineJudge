@@ -7,6 +7,7 @@ const js = require('./lib/KAUOnlineJudge.js')
 const port = 3000
 const app = express()
 
+//서드 파티 미들웨어
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static('lib'));
 
