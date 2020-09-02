@@ -2,13 +2,13 @@
 
 현재 FE에서 사용중인 모듈:
 
-express(웹 프레임워크)
+    express(웹 프레임워크)
     
-ejs(뷰 엔진 - 동적 html 파일)
+    ejs(뷰 엔진 - 동적 html 파일)
     
-body-parser(post 방식의 전송을 더욱 쉽게 만들어줌?)
+    body-parser(post 방식의 전송을 더욱 쉽게 만들어줌?)
     
-helmet(자잘한 보안 이슈 자동 해결?)
+    helmet(자잘한 보안 이슈 자동 해결?)
 
 
 -----------------
