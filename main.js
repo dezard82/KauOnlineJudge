@@ -128,6 +128,20 @@ app.post('/login', function(req, res) {
         }
     }
 })
+app.post('/register', function(req, res) {
+    var post = req.body
+
+    const register = {
+        uri: 'http://dofh.iptime.org:8000/api/register/',
+        method: 'POST',
+        form: {
+            username: post.username,
+            email: post.email,
+            password: post.password,
+            password_check: post.password_check
+        }
+    }
+})
 //-----------------------------미구현-----------------------------
 
 //각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시한다
