@@ -1,6 +1,6 @@
 <tr>
     <td><%- num %></td>
-    <td><a href="/question?num=<%- num %>"><%- q.name %></a></td>
+    <td><a href="/question/<%- num %>"><%- q.name %></a></td>
     <td><%- tags(q.table.tag) %></td>
     <td><%- tags([q.table.submit]) %></td>
     <td><%- q.table.cnt_correct %></td>
