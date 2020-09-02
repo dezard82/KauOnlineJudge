@@ -1,0 +1,8 @@
+<tr>
+    <td><%- num %></td>
+    <td><a href="/question?num=<%- num %>"><%- q.name %></a></td>
+    <td><%- tags(q.table.tag) %></td>
+    <td><%- tags([q.table.submit]) %></td>
+    <td><%- q.table.cnt_correct %></td>
+    <td><%- q.table.pcnt_correct %></td>
+</tr>

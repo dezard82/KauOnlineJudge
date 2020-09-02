@@ -1,0 +1,73 @@
+<div id="problem_name">
+    <h1><%- q.name %>
+        <!--<button 
+            type="button" 
+            class="btn btn-link"
+            onclick="location.href='${my_url}/question_solver?num=${num}">
+            코드 제출
+        </button>-->
+    </h1>
+</div>
+
+<!--문제의 시간/메모리 제한과 태그, 제출 정보를 나타내는 table-->
+<table class="table table-striped">
+<thead>
+    <tr>
+        <th>시간 제한</th>
+        <th>메모리 제한</th>
+        <th>태그</th>
+        <th>제출</th>
+        <th>정답자 수</th>
+        <th>정답률</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td><%- q.table.time_limit %>초</td>
+        <td><%- q.table.mem_limit %>MB</td>
+        <td><%- tags(q.table.tag) %></td>
+        <td><%- tags([q.table.submit]) %></td>
+        <td><%- q.table.cnt_correct %></td>
+        <td><%- q.table.pcnt_correct %>%</td>
+    </tr>
+</tbody>
+</table>
+<br>
+
+<div id="problem_info">
+    <div id="problem_explanation">
+        <h3>문제 설명</h3>
+        <p><%- q.info %></p>
+    </div><br>
+    <div id="problem_input">
+        <h3>입력 조건</h3>
+        <p><%- q.input %></p>
+    </div><br>
+    <div id="problem_output">
+        <h3>출력 조건</h3>
+        <p><%- q.output %></p>
+    </div><br><br>
+
+    <%- examples %>
+</div>
+<!--문제의 답 제출-->
+<hr><br>
+<h5>언어</h5>
+<select name="lang" id="lang">
+    <option value="0">C</option>
+    <option value="1">C++</option>
+    <option value="2">Java</option>
+    <option value="3">Python</option>
+</select>
+<br> <br>
+<h5>소스 코드</h5>
+<textarea
+    id="code"
+    class="form-control" 
+    onkeydown="resize(this)"
+    onkeyup="resize(this)" 
+    rows="15"
+    placeholder="여기에 코드를 입력해주세요"></textarea>
+<br>
+<a class="btn btn-primary text-white" role="button">제출</a>
+</div>

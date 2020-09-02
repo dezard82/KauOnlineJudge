@@ -1,0 +1,51 @@
+<article class="card-body">
+    <a href="http://localhost:3000/sign_in" class="float-right btn btn-outline-primary">회원가입</a>
+    <h4 class="card-title mb-4 mt-1">로그인</h4>
+
+    <!--http://dofh.iptime.org:8000/api/login/-->
+    <form name="login" action="/login" method="POST">
+        <!--아이디 / 이메일-->
+        <div class="form-group">
+            <label for="username">아이디 / 이메일</label>
+            <input name="username" type="username" class="form-control" placeholder="아이디 / 이메일">
+        </div>
+
+        <!--버그 방지용 빈 input-->
+        <div class="form-group" style="display:none">
+            <label for="email">이메일</label>
+            <input name="email" type="email" class="form-control" placeholder="example@example.com">
+        </div>
+
+        <!--비밀번호-->
+        <div class="form-group">    
+            <!--<a class="float-right" href="#">비밀번호 찾기</a>-->
+            <label for="password">비밀번호</label>
+            <input name="password" type="password" class="form-control" placeholder="******">
+        </div>
+        
+        <!--비밀번호 웹페이지에 저장할지 여부
+        <div class="form-group"> 
+            <div class="checkbox">
+                <label> <input type="checkbox"> 비밀번호 저장</label>
+            </div>
+        </div>-->
+        
+        <br>
+        
+        <!--제출하기-->
+        <div class="form-group">
+            <button 
+            type="submit" 
+            class="btn btn-primary btn-block text-white" 
+            role="button"
+            onclick="submit_button()">제출</button>
+        </div>
+    </form>
+</article>
+
+<script type="text/javascript">
+    function submit_button()
+    {
+        document.getElementById("email").value = document.getElementById("username").value;
+    }
+</script>

@@ -1,0 +1,52 @@
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+/*전체 영역*/
+* {
+    font-family: 'Nanum Gothic';
+}
+
+.text-white {
+    color: white;
+}
+
+footer {
+    background-color: #eeeeee;
+    color: #aaaaaa;
+    text-align: center;
+}
+footer a,
+footer a:hover {
+    color: #aaaaaa;
+}
+
+a.btn {
+    color: #aaaaaa;
+}
+
+/*문제 페이지 영역*/
+div#problem_table table {
+    font-size: small;
+}
+
+/*문제 태그 영역*/
+span.easy {
+    background-color: #00bb00;
+    color: white;
+}
+span.medium {
+    background-color: #eeee00;
+    color: black;
+}
+span.hard {
+    background-color: #bb0000;
+    color: white;
+}
+span.correct {
+    color: #00bb00;
+}
+span.wrong {
+    color: #ee0000;
+}
+span.tag {
+    background-color: #aaaaaa;
+    color:white;
+}
