@@ -109,19 +109,20 @@ app.get('/question', function(req, res) {       //문제 페이지
 app.get('/login', function(req, res) {          //로그인 페이지
     code = 200;
     file = fs.readFileSync(__dirname + `/html/login.html`, 'utf-8');
+    title = 'login'
     
     res.status(code).render('page', {
-        title: 'login', 
+        title: title, 
         body: file
     });
 })
-app.get('/sign_in', function(req, res) {        //회원가입 페이지
+app.get('/register', function(req, res) {        //회원가입 페이지
     code = 200;
-    file = fs.readFileSync(__dirname + `/html/sign_in.html`, 'utf-8');
-    console.log(`login`)
+    file = fs.readFileSync(__dirname + `/html/register.html`, 'utf-8');
+    title = 'register'
     
     res.status(code).render('page', {
-        title: 'sign up', 
+        title: title, 
         body: file
     });
 })
