@@ -15,7 +15,6 @@ app.use(express.static('lib'));
 app.set('view engine', 'ejs')
 app.set('views', './views');
 
-
 var code = 404, file = '404 Not Found!', title = 'KAU Online Judge';
 var message = ''
 
@@ -130,7 +129,6 @@ app.post('/login', function(req, res) {
     }
 })
 //-----------------------------미구현-----------------------------
-
 
 //각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시한다
 app.get('*', function(req, res) {
