@@ -4,6 +4,7 @@ const express = require('express')
 const js = require('../lib/KAUOnlineJudge.js')
 
 const router = express.Router()
+const filelist = fs.readdirSync(__dirname + `/../question`)
 
 //lib 폴더를 static으로 지정해 css, js, image 등을 사용할 수 있음
 router.use(express.static('lib'));
@@ -12,15 +13,17 @@ var code = 404, body = '404 Not Found!', title = 'KAU Online Judge'
 var message = ''
 
 router.get('/', function(req, res, next) {      //문제의 리스트
-    //문제 정보가 들어있는 폴더를 가져옴
+    title = 'KAU Online Judge'
     //문제의 리스트에서 각 파일을 list 변수에 더함
     list = '';
-    var filelist = fs.readdirSync(__dirname + `/../question`)
+    //문제 정보가 들어있는 폴더를 가져옴
     filelist.forEach(function (file) {
+        //폴더 안의 문제에 대해 문제 정보를 가져옴
         const q = JSON.parse(fs.readFileSync(__dirname + `/../question/${file}`).toString())
-
+        //문제 태그로 검색 시 tag를 가지고 있지 않은 문제는 넘어감
         if ((req.query.tag != undefined) && !(q.table.tag.includes(req.query.tag))) return false
 
+        //문제 정보를 list 변수에 추가
         list += ejs.render(
             fs.readFileSync(__dirname + '/../views/question_list_item.ejs', 'utf-8'), {
                 num: file.split('.')[0],

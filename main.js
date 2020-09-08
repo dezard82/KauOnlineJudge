@@ -1,15 +1,16 @@
 const express = require('express')
-const helmet = require('helmet')
+//const helmet = require('helmet')
 
 const rootRouter = require('./routes/root')
 const questionRouter = require('./routes/question')
 const loginRouter = require('./routes/login')
 const registerRouter = require('./routes/register')
 
-const port = 3000
+//const hostname = '192.168.219.104'
+const port = 800
 const app = express()
 
-app.use(helmet())
+//app.use(helmet())
 
 //ejs
 app.set('view engine', 'ejs')
@@ -21,4 +22,5 @@ app.use('/question', questionRouter)    //문제 페이지
 app.use('/register', registerRouter)    /*회원가입 페이지, 미구현*/
 app.use('/', rootRouter)                //기본 페이지
 
-app.listen(port, function() {});
+app.listen(port, function() {})
+//app.listen(port, hostname, function() {})
