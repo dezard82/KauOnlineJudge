@@ -28,25 +28,37 @@ div#problem_table table {
 }
 
 /*문제 태그 영역*/
-span.easy {
+span.easy,
+span.easy a,
+span.easy a:hover {
     background-color: #00bb00;
     color: white;
 }
-span.medium {
+span.medium,
+span.medium a,
+span.medium a:hover {
     background-color: #eeee00;
     color: black;
 }
-span.hard {
+span.hard,
+span.hard a,
+span.hard a:hover {
     background-color: #bb0000;
     color: white;
 }
-span.correct {
+span.correct,
+span.correct a,
+span.correct a:hover {
     color: #00bb00;
 }
-span.wrong {
+span.wrong,
+span.wrong a,
+span.wrong a:hover {
     color: #ee0000;
 }
-span.tag {
+span.tag,
+span.tag a,
+span.tag a:hover {
     background-color: #aaaaaa;
     color:white;
 }

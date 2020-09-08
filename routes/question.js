@@ -9,7 +9,7 @@ const router = express.Router()
 router.use(express.static('lib'));
 
 var code = 404, body = '404 Not Found!', title = 'KAU Online Judge'
-var message = 'question'
+var message = ''
 
 router.get('/', function(req, res, next) {      //문제의 리스트
     //문제 정보가 들어있는 폴더를 가져옴
@@ -17,12 +17,14 @@ router.get('/', function(req, res, next) {      //문제의 리스트
     list = '';
     var filelist = fs.readdirSync(__dirname + `/../question`)
     filelist.forEach(function (file) {
-        /*이 부분에 태그 검색 기능 추가해야 함*/
+        const q = JSON.parse(fs.readFileSync(__dirname + `/../question/${file}`).toString())
+
+        if ((req.query.tag != undefined) && !(q.table.tag.includes(req.query.tag))) return false
 
         list += ejs.render(
             fs.readFileSync(__dirname + '/../views/question_list_item.ejs', 'utf-8'), {
                 num: file.split('.')[0],
-                q: JSON.parse(fs.readFileSync(__dirname + `/../question/${file}`).toString()),
+                q: q,
                 tags: js.tags
             }
         )
@@ -31,12 +33,12 @@ router.get('/', function(req, res, next) {      //문제의 리스트
     //모든 레코드를 저장한 list 변수를 이용해 question_list를 완성
     body = ejs.render(fs.readFileSync(__dirname + '/../views/question_list.ejs', 'utf-8'), { list: list })
     code = 200;
-    message += ' list'
+    message = 'question list'
     
     next()
 })
 router.get('/:num', function(req, res, next) {  //한 문제의 정보 및 해답 제출란
-    message += req.params.num
+    message = `question no.${req.params.num}`
 
     try {                                       //`num`.json이 있는 경우
         //문제의 정보를 담은 json 파일을 객체로 저장
