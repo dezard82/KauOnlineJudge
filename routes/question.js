@@ -13,7 +13,6 @@ var code = 404, body = '404 Not Found!', title = 'KAU Online Judge'
 var message = ''
 
 router.get('/', function(req, res, next) {      //문제의 리스트
-    title = 'KAU Online Judge'
     //문제의 리스트에서 각 파일을 list 변수에 더함
     list = '';
     //문제 정보가 들어있는 폴더를 가져옴
@@ -37,13 +36,15 @@ router.get('/', function(req, res, next) {      //문제의 리스트
     body = ejs.render(fs.readFileSync(__dirname + '/../views/question_list.ejs', 'utf-8'), { list: list })
     code = 200;
     message = 'question list'
+    if (req.query.tag != undefined) message += `: ${req.query.tag}`
     
-    next()
+    //각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시한다
+    js.show(res, code, title, body, message)
 })
 router.get('/:num', function(req, res, next) {  //한 문제의 정보 및 해답 제출란
     message = `question no.${req.params.num}`
 
-    try {                                       //`num`.json이 있는 경우
+    try {           //`num`.json이 있는 경우
         //문제의 정보를 담은 json 파일을 객체로 저장
         const q = JSON.parse(fs.readFileSync(__dirname + `/../question/${req.params.num}.json`).toString());
         
@@ -68,26 +69,15 @@ router.get('/:num', function(req, res, next) {  //한 문제의 정보 및 해�
         
         title = `${req.params.num}. ${q.name}`
         code = 200;
-    } catch (err) {                             //없는 경우
+    } catch (err) { //          　 없는 경우
         code = 404;
         title = 'Question no. Error'
         body = `Error! Question no.${req.params.num} Not Found!`;
         message += ' not found'
     }
-
-    next()
-})
-
-//각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시한다
-router.get('*', function (req, res) {
-    //에러가 발생하지 않았다면 console에 log를, 발생했다면 error를 출력
-    if (code == 200) console.log(message)
-    else console.error(message)
     
-    res.status(code).render('page', {
-        title: title, 
-        body: body
-    });
+    //각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시한다
+    js.show(res, code, title, body, message)
 })
 
 module.exports = router

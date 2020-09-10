@@ -6,8 +6,7 @@ const questionRouter = require('./routes/question')
 const loginRouter = require('./routes/login')
 const registerRouter = require('./routes/register')
 
-//const hostname = '192.168.219.104'
-const port = 800
+const port = 8080
 const app = express()
 
 //app.use(helmet())
@@ -23,4 +22,3 @@ app.use('/register', registerRouter)    /*회원가입 페이지, 미구현*/
 app.use('/', rootRouter)                //기본 페이지
 
 app.listen(port, function() {})
-//app.listen(port, hostname, function() {})
