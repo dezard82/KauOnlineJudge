@@ -23,10 +23,10 @@ app.set('view engine', 'ejs')
 app.set('views', './views');
 
 //routes 폴더 안의 가나다 순으로 정렬해야 하는 것으로 보임
-app.use('/login', loginRouter)          /*로그인 페이지, 미구현*/
-app.use('/logout', logoutRouter)        /*로그아웃 페이지, 미구현*/
+app.use('/login', loginRouter)          /*로그인 페이지, 사용자에게 메세지 띄우지 않음*/
+app.use('/logout', logoutRouter)        /*로그아웃 페이지, 사용자에게 메세지 띄우지 않음*/
 app.use('/question', questionRouter)    //문제 페이지
-app.use('/register', registerRouter)    /*회원가입 페이지, 미구현*/
+app.use('/register', registerRouter)    /*회원가입 페이지, 사용자에게 메세지 띄우지 않음*/
 app.use('/', rootRouter)                //기본 페이지
 
 app.listen(port, function() {})
