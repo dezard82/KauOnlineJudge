@@ -12,7 +12,7 @@ router.use(express.static('lib'));
 var code = 404, body = '404 Not Found!', title = 'KAU Online Judge'
 var message = ''
 
-router.get('/', function(req, res, next) {      //문제의 리스트
+router.get('/', function(req, res) {      //문제의 리스트
     //문제의 리스트에서 각 파일을 list 변수에 더함
     list = '';
     //문제 정보가 들어있는 폴더를 가져옴
@@ -41,7 +41,7 @@ router.get('/', function(req, res, next) {      //문제의 리스트
     //각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시한다
     js.show(res, code, title, body, message)
 })
-router.get('/:num', function(req, res, next) {  //한 문제의 정보 및 해답 제출란
+router.get('/:num', function(req, res) {  //한 문제의 정보 및 해답 제출란
     message = `question no.${req.params.num}`
 
     try {           //`num`.json이 있는 경우

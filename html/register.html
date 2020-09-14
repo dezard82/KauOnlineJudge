@@ -1,6 +1,6 @@
 <article class="card-body">
     <h4 class="card-title mb-4 mt-1">회원가입</h4>
-    <form name="register" action="http://dofh.iptime.org:8000/api/register/" method="POST" target="_blank">
+    <form name="register" action="/register" method="POST">
         <!--버그 방지용 빈 input-->
         <div class="form-group">
             <label for="username">아이디</label>
@@ -50,7 +50,7 @@
             <label>약관 동의</label>
             <div data-toggle="buttons">
                 <label class="btn btn-primary active">
-                    <input id="agree" type="checkbox" autocomplete="off">
+                    <input id="agree" name="agree" type="checkbox" autocomplete="off">
                 </label>
                 <a href="#">이용약관</a>에 동의합니다.
             </div>
@@ -58,7 +58,7 @@
         
         <!--제출하기-->
         <div class="form-group text-center">
-            <button type="button" id="join-submit" class="btn btn-primary" onclick="submit_button()">
+            <button type="submit" id="join-submit" class="btn btn-primary">
                 회원가입<i class="fa fa-check spaceLeft"></i>
             </button>
             <button type="button" class="btn btn-warning">
@@ -67,11 +67,3 @@
         </div>
     </form>
 </article>
-
-<script>
-    function submit_button () {
-        //비밀번호와 비밀번호 확인이 서로 다르다면 회원가입을 하지 않음
-        if (document.getElementById("password").value != document.getElementById("password_check").value)
-            alert("비밀번호와 비밀번호 획인이 서로 같지 않습니다!");
-    }
-</script>

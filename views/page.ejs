@@ -6,7 +6,7 @@
     <title><%- title %></title>
 </head>
 <body>
-    <%- include("menu.ejs") %>
+    <%- include("menu.ejs", {user: "로그인"}) %>
     <br>
     <div class="container">
         <%- body %>

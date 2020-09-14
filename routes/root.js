@@ -1,6 +1,7 @@
 const fs = require('fs')
-const js = require('../lib/KAUOnlineJudge.js')
+const cookie = require('cookie')
 const express = require('express')
+const js = require('../lib/KAUOnlineJudge.js')
 
 const router = express.Router()
 
@@ -24,7 +25,6 @@ router.get('/', function(req, res) {  //메인 페이지
         message += '.html not found'
     }
 
-    
     //각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시한다
     js.show(res, code, title, body, message)
 })

@@ -1,5 +1,6 @@
 const fs = require('fs')
 const express = require('express')
+const request = require('request')
 const bodyParser = require('body-parser')
 const js = require('../lib/KAUOnlineJudge.js')
 
@@ -27,16 +28,48 @@ router.get('/', function(req, res) {    //회원가입 페이지
 router.post('/', function(req, res) {
     var post = req.body
 
+    if (post.password != post.password_check) {
+        console.error('password not match!')
+        res.redirect('back')
+    } else if (post.agree != 'on') {
+        console.error('you didn\'t agree!')
+        res.redirect('back')
+    }
+
     const register = {
-        uri: 'http://dofh.iptime.org:8000/api/register/',
-        method: 'POST',
-        form: {
+        url: 'http://dofh.iptime.org:8000/api/register/',
+        form: { 
             username: post.username,
             email: post.email,
             password: post.password,
             password_check: post.password_check
         }
     }
+
+    request.post(register, function (err, serverRes, body) {
+        if (err) { }    //회원가입 요청에 실패한 경우 
+
+        fs.writeFileSync('./body.txt', body, 'utf8')
+
+        body = JSON.parse(body)
+
+        if (body.error == null) {   //회원가입을 성공적으로 완료했다면
+            console.log('success!')
+            console.log(`id: ${post.username}`)
+            console.log(`email: ${post.email}`)
+            console.log(`password: ${post.password}`)
+            console.log(`password_check: ${post.password_check}`)
+
+            res.redirect('/login')
+        } else {                    //회원가입에 실패한 경우
+            //Username already exists
+            //Email already exists
+            //username: 이 필드의 글자 수가 32 이하인지 확인하십시오.
+            //password: 이 필드의 글자 수가  적어도 6 이상인지 확인하십시오.
+            console.error(body.data)
+            res.redirect('back')
+        }
+    })
 })
 
 module.exports = router
