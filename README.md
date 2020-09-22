@@ -6,7 +6,9 @@
     
     ejs(뷰 엔진 - 동적 html 파일)
     
-    body-parser(post 방식의 전송을 더욱 쉽게 만들어줌?)
+    body-parser(post 방식의 전송을 더욱 쉽게 만들어줌)
+
+    request(BE와의 연결을 위한 모듈 - deprecated)
     
     helmet(자잘한 보안 이슈 자동 해결?)
 

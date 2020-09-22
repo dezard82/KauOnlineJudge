@@ -1,16 +1,25 @@
 const fs = require('fs')
 const ejs = require('ejs')
-const express = require('express')
-const js = require('../lib/KAUOnlineJudge.js')
 
-const router = express.Router()
+const js = require('../lib/KAUOnlineJudge.js')
+const myRouter = require('../lib/myRouter.js')
+
+const router = myRouter.Router()
 const filelist = fs.readdirSync(__dirname + `/../question`)
 
+/*
+const express = require('express')
+const session = require('express-session')
+const FileStore = require('session-file-store')(session)
+
+const router = express.Router()
+
 //lib 폴더를 static으로 지정해 css, js, image 등을 사용할 수 있음
-router.use(express.static('lib'));
+router.use(express.static('lib'))
 
 var code = 404, body = '404 Not Found!', title = 'KAU Online Judge'
-var message = ''
+var message = '', user = '로그인'
+*/
 
 router.get('/', function(req, res) {      //문제의 리스트
     //문제의 리스트에서 각 파일을 list 변수에 더함
@@ -33,16 +42,18 @@ router.get('/', function(req, res) {      //문제의 리스트
     })
 
     //모든 레코드를 저장한 list 변수를 이용해 question_list를 완성
-    body = ejs.render(fs.readFileSync(__dirname + '/../views/question_list.ejs', 'utf-8'), { list: list })
-    code = 200;
-    message = 'question list'
-    if (req.query.tag != undefined) message += `: ${req.query.tag}`
+    router.build.body = ejs.render(fs.readFileSync(__dirname + '/../views/question_list.ejs', 'utf-8'), { list: list })
+    router.build.code = 200;
+    router.build.message = 'question list'
+    if (req.query.tag != undefined) 
+        router.build.message += `: ${req.query.tag}`
     
     //각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시한다
-    js.show(res, code, title, body, message)
+    //js.show(res, code, title, user, body, message)
+    myRouter.show(res, router.build)
 })
 router.get('/:num', function(req, res) {  //한 문제의 정보 및 해답 제출란
-    message = `question no.${req.params.num}`
+    router.build.message = `question no.${req.params.num}`
 
     try {           //`num`.json이 있는 경우
         //문제의 정보를 담은 json 파일을 객체로 저장
@@ -61,23 +72,24 @@ router.get('/:num', function(req, res) {  //한 문제의 정보 및 해답 제�
         })
     
         //문제 정보를 question.ejs에 넘겨 문제 페이지를 생성
-        body = ejs.render(
+        router.build.body = ejs.render(
             fs.readFileSync(__dirname + '/../views/question.ejs', 'utf-8'), {
                 q: q, tags: js.tags, examples: examples
             }
         )
         
-        title = `${req.params.num}. ${q.name}`
-        code = 200;
+        router.build.title = `${req.params.num}. ${q.name}`
+        router.build.code = 200;
     } catch (err) { //          　 없는 경우
-        code = 404;
-        title = 'Question no. Error'
-        body = `Error! Question no.${req.params.num} Not Found!`;
-        message += ' not found'
+        router.build.code = 404;
+        router.build.title = 'Question no. Error'
+        router.build.body = `Error! Question no.${req.params.num} Not Found!`;
+        router.build.message += ' not found'
     }
     
     //각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시한다
-    js.show(res, code, title, body, message)
+    //js.show(res, code, title, user, body, message)
+    myRouter.show(res, router.build)
 })
 
 module.exports = router

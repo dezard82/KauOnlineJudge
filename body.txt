@@ -1,4 +1,0 @@
-{
-    "error": "invalid-password",
-    "data": "password: \uc774 \ud544\ub4dc\uc758 \uae00\uc790 \uc218\uac00  \uc801\uc5b4\ub3c4 6 \uc774\uc0c1\uc778\uc9c0 \ud655\uc778\ud558\uc2ed\uc2dc\uc624."
-}

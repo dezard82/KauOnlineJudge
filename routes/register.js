@@ -1,7 +1,16 @@
 const fs = require('fs')
-const express = require('express')
 const request = require('request')
+
+const myRouter = require('../lib/myRouter')
+
+const router = myRouter.Router()
+
+/*
+const express = require('express')
+const session = require('express-session')
+const FileStore = require('session-file-store')(session)
 const bodyParser = require('body-parser')
+
 const js = require('../lib/KAUOnlineJudge.js')
 
 const router = express.Router()
@@ -11,31 +20,43 @@ router.use(bodyParser.urlencoded({ extended: false }))
 //lib 폴더를 static으로 지정해 css, js, image 등을 사용할 수 있음
 router.use(express.static('lib'));
 
-var code = 404, body = '404 Not Found!', title = 'KAU Online Judge'
-var message = ''
-
+js.show(
+        res, 200, 'register', '로그인',
+        fs.readFileSync(__dirname + `/../html/register.html`, 'utf-8'), 
+        'register'
+    )
+*/
 
 router.get('/', function(req, res) {    //회원가입 페이지
-    code = 200;
-    body = fs.readFileSync(__dirname + `/../html/register.html`, 'utf-8');
-    title = 'register'
-    message = 'register'
-    
+    router.build = {
+        code: 200,
+        body: fs.readFileSync(__dirname + `/../html/register.html`, 'utf-8'),
+        title: 'register',
+        message: 'register',
+        user: router.build.user
+    }
+
     //각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시한다
-    js.show(res, code, title, body, message)
+    myRouter.show(res, router.build)
 })
 
 router.post('/', function(req, res) {
+    //form에서 받아온 정보의 집합
     var post = req.body
 
     if (post.password != post.password_check) {
-        console.error('password not match!')
+        //비밀번호와 비밀번호 확인이 일치하지 않는다면
+        //경고창을 표시한 뒤 다시 회원가입 페이지로 이동
+        console.error('Password not matched!')
         res.redirect('back')
     } else if (post.agree != 'on') {
-        console.error('you didn\'t agree!')
+        //이용약관에 동의하지 않는다면
+        //경고창을 표시한 뒤 다시 회원가입 페이지로 이동
+        console.error('Please Agree to the Terms of Use!')
         res.redirect('back')
     }
 
+    //request로 전송할 데이터 집합
     const register = {
         url: 'http://dofh.iptime.org:8000/api/register/',
         form: { 
@@ -49,17 +70,12 @@ router.post('/', function(req, res) {
     request.post(register, function (err, serverRes, body) {
         if (err) { }    //회원가입 요청에 실패한 경우 
 
-        fs.writeFileSync('./body.txt', body, 'utf8')
-
+        //body는 json 형태의 파일이므로 이를 해석 가능하게끔 파싱
         body = JSON.parse(body)
 
         if (body.error == null) {   //회원가입을 성공적으로 완료했다면
-            console.log('success!')
-            console.log(`id: ${post.username}`)
-            console.log(`email: ${post.email}`)
-            console.log(`password: ${post.password}`)
-            console.log(`password_check: ${post.password_check}`)
-
+            //유저가 회원 가입을 완료했음을 알린 뒤 login으로 리다이렉트
+            console.log(`${post.username} has registered!`)
             res.redirect('/login')
         } else {                    //회원가입에 실패한 경우
             //Username already exists
