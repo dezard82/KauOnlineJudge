@@ -5,7 +5,6 @@
         "time_limit": 2,
         "mem_limit": 128,
         "tag": ["중간", "기하 알고리즘"],
-        "submit": "오답",
         "cnt_correct": "11082",
         "pcnt_correct": "19.7"
     },

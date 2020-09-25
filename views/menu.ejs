@@ -48,9 +48,11 @@
 
         <!--세션이 없을 때 누르면 로그인, 
             　　　 있을 때 누르면 로그아웃-->
-        <a href="/login">로그인</a>&nbsp;
-        <a href="/logout">로그아웃</a>&nbsp;
-        <!--<a href="/session">세션 관리</a>&nbsp;-->
+        <% if (user == "내 정보") {%>
+            <a href="/login">로그인</a>&nbsp;
+        <% } else { %>    
+            <a href="/logout">로그아웃</a>&nbsp;
+        <% } %>
         
         <!--검색창-->
         <form class="form-inline my-2 my-lg-0">

@@ -26,7 +26,7 @@
         <td><%- q.table.time_limit %>초</td>
         <td><%- q.table.mem_limit %>MB</td>
         <td><%- tags(q.table.tag) %></td>
-        <td><%- tags([q.table.submit]) %></td>
+        <td><%- tags([submit]) %></td>
         <td><%- q.table.cnt_correct %></td>
         <td><%- q.table.pcnt_correct %>%</td>
     </tr>
@@ -48,7 +48,38 @@
         <p><%- q.output %></p>
     </div><br><br>
 
-    <%- examples %>
+    <% var i = 1 %>
+    <% q.example.forEach(function(ex) { %>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="headline">
+                    <h3>예제 입력 <%= i %>
+                        <button 
+                            type="button" 
+                            class="btn btn-link"
+                            onclick="copyToClipboard('input_<%= i %>')">
+                            복사
+                        </button>
+                    </h3>
+                </div>
+                <pre class="sampledata" id="input_<%= i %>"><%- ex.input %></pre>
+            </div>
+            <div class="col-md-6">
+                <div class="headline">
+                    <h3>예제 출력 <%= i %>
+                        <button 
+                            type="button" 
+                            class="btn btn-link"
+                            onclick="copyToClipboard('output_<%= i %>')">
+                            복사
+                        </button>
+                    </h3>
+                </div>
+                <pre class="sampledata" id="output_<%= i++ %>}"><%- ex.output %></pre>
+            </div>
+        </div>
+    <% }) %>
+
 </div>
 <!--문제의 답 제출-->
 <hr><br>

@@ -5,7 +5,7 @@ const js = require('../lib/KAUOnlineJudge.js')
 const myRouter = require('../lib/myRouter.js')
 
 const router = myRouter.Router()
-const filelist = fs.readdirSync(__dirname + `/../question`)
+const filelist = fs.readdirSync(__dirname + `/BE_test/question`)
 
 /*
 const express = require('express')
@@ -21,13 +21,19 @@ var code = 404, body = '404 Not Found!', title = 'KAU Online Judge'
 var message = '', user = '로그인'
 */
 
-router.get('/', function(req, res) {      //문제의 리스트
+router.get('*', function (req, res, next) {
+    //현재 로그인 한 사용자의 문제 제출 리스트
+    router.submit = (router.build.user === '내 정보') ? {} : JSON.parse(fs.readFileSync(__dirname + `/BE_test/users/${router.build.user}.json`).toString()).submit
+    next()
+})
+
+router.get('/', function (req, res) {      //문제의 리스트
     //문제의 리스트에서 각 파일을 list 변수에 더함
     list = '';
     //문제 정보가 들어있는 폴더를 가져옴
     filelist.forEach(function (file) {
         //폴더 안의 문제에 대해 문제 정보를 가져옴
-        const q = JSON.parse(fs.readFileSync(__dirname + `/../question/${file}`).toString())
+        const q = JSON.parse(fs.readFileSync(__dirname + `/BE_test/question/${file}`).toString())
         //문제 태그로 검색 시 tag를 가지고 있지 않은 문제는 넘어감
         if ((req.query.tag != undefined) && !(q.table.tag.includes(req.query.tag))) return false
 
@@ -35,7 +41,8 @@ router.get('/', function(req, res) {      //문제의 리스트
         list += ejs.render(
             fs.readFileSync(__dirname + '/../views/question_list_item.ejs', 'utf-8'), {
                 num: file.split('.')[0],
-                q: q,
+                q: q, 
+                submit: (router.submit[file.split('.')[0]] == undefined ? '' : router.submit[file.split('.')[0]]),
                 tags: js.tags
             }
         )
@@ -52,29 +59,20 @@ router.get('/', function(req, res) {      //문제의 리스트
     //js.show(res, code, title, user, body, message)
     myRouter.show(res, router.build)
 })
-router.get('/:num', function(req, res) {  //한 문제의 정보 및 해답 제출란
-    router.build.message = `question no.${req.params.num}`
+router.get('/:num', function (req, res) {  //한 문제의 정보 및 해답 제출란
+    var num = req.params.num
+    router.build.message = `question no.${num}`
 
     try {           //`num`.json이 있는 경우
         //문제의 정보를 담은 json 파일을 객체로 저장
-        const q = JSON.parse(fs.readFileSync(__dirname + `/../question/${req.params.num}.json`).toString());
+        const q = JSON.parse(fs.readFileSync(__dirname + `/BE_test/question/${req.params.num}.json`).toString());
         
-        //현재 문제의 각 예제를 examples 변수에 더함
-        var examples = '', i = 1
-        q.example.forEach(function(ex) {
-            examples += ejs.render(
-                fs.readFileSync(__dirname + '/../views/example.ejs', 'utf-8'), {
-                    i: i, example: ex,
-                    copyToClipboard: js.copyToClipboard
-                }
-            )
-            i += 1
-        })
-    
         //문제 정보를 question.ejs에 넘겨 문제 페이지를 생성
         router.build.body = ejs.render(
             fs.readFileSync(__dirname + '/../views/question.ejs', 'utf-8'), {
-                q: q, tags: js.tags, examples: examples
+                q: q, tags: js.tags,
+                submit: (router.submit[num] == undefined ? '' : router.submit[num]),
+                copyToClipboard: js.copyToClipboard
             }
         )
         

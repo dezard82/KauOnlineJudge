@@ -1,0 +1,10 @@
+{
+    "username":"aaa",
+    "email":"aaa@aaa.com",
+    "password":"1212",
+    "submit": {
+        "1": "정답",
+        "2": "정답",
+        "3": "오답"
+    }
+}
