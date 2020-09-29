@@ -9,6 +9,7 @@
 }
 
 footer {
+    clear: both;
     background-color: #eeeeee;
     color: #aaaaaa;
     text-align: center;

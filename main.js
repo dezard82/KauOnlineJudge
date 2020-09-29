@@ -6,6 +6,7 @@ const questionRouter = require('./routes/question')
 const loginRouter = require('./routes/login')
 const logoutRouter = require('./routes/logout')
 const registerRouter = require('./routes/register')
+const userRouter = require('./routes/user')
 
 const port = 8080
 const app = express()
@@ -22,5 +23,6 @@ app.use('/logout', logoutRouter)        /*로그아웃 페이지, 사용자에�
 app.use('/question', questionRouter)    //문제 페이지
 app.use('/register', registerRouter)    /*회원가입 페이지, 사용자에게 메세지 띄우지 않음*/
 app.use('/', rootRouter)                //기본 페이지
+app.use('/user', userRouter)            /*사용자 정보 페이지, 사용자 통계를 표시하지 못함*/
 
 app.listen(port, function() {})

@@ -1,0 +1,67 @@
+<h1><%- user %></h1>
+<hr>
+<div class="col-6" style="float:left;"> 
+    <canvas id="test_chart"></canvas> 
+</div> 
+<div class="col-6" style="float:right;">
+    <% for(item in list) { %>
+        <h3><%- item %></h3> <hr>
+        <% list[item].forEach(i => { %>
+            <a href='/question/<%- i %>'><%- i %></a>
+        <% }) %>
+        <br><br>
+    <% } %>
+</div>
+<br>
+
+<!--임시로 생성한 차트-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+    var data = []
+    var labels = []
+
+    var list = "<%= JSON.stringify(list) %>"
+    for(item in list) {
+        labels.push(item)
+        data.push(list[item].length)
+    }
+
+    // 도넛형 차트 
+    var myDoughnutChart = new Chart(
+        document.getElementById("test_chart"), {
+            type: 'doughnut',
+            title: 'root',
+            data: {
+                datasets: [{data: data}],
+                labels: labels
+            }
+        }
+    );
+</script>
+
+<!--
+    <h3>사용자 이름</h3>
+<hr>
+<div class="card col-6"> 
+    <canvas id="test_chart"></canvas> 
+</div> 
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+    // 도넛형 차트 
+    var myDoughnutChart = new Chart(
+        document.getElementById("test_chart"), {
+            type: 'doughnut',
+            title: 'root',
+            data: { 
+                datasets: [{ 
+                    backgroundColor: ['blue', 'red', 'yellow'], 
+                    data: [487, 380, 190] 
+                }], 
+                // 라벨의 이름이 툴팁처럼 마우스가 근처에 오면 나타남 
+                labels: ['정답', '오답', '컴파일 에러']
+            }
+        }
+    ); 
+</script>
+-->

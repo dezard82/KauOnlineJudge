@@ -31,7 +31,7 @@ router.get('/', function (req, res) {      //문제의 리스트
     //문제의 리스트에서 각 파일을 list 변수에 더함
     list = '';
     //문제 정보가 들어있는 폴더를 가져옴
-    filelist.forEach(function (file) {
+    filelist.forEach(file => {
         //폴더 안의 문제에 대해 문제 정보를 가져옴
         const q = JSON.parse(fs.readFileSync(__dirname + `/BE_test/question/${file}`).toString())
         //문제 태그로 검색 시 tag를 가지고 있지 않은 문제는 넘어감

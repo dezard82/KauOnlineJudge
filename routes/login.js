@@ -5,28 +5,6 @@ const myRouter = require('../lib/myRouter')
 
 const router = myRouter.Router()
 
-/*
-const express = require('express')
-const session = require('express-session')
-const FileStore = require('session-file-store')(session)
-const bodyParser = require('body-parser')
-
-const js = require('../lib/KAUOnlineJudge.js')
-
-const router = express.Router()
-
-//서드 파티 미들웨어
-router.use(bodyParser.urlencoded({ extended: false }))
-//lib 폴더를 static으로 지정해 css, js, image 등을 사용할 수 있음
-router.use(express.static('lib'))
-
-js.show(
-        res, 200, 'login', '로그인',
-        fs.readFileSync(__dirname + `/../html/login.html`, 'utf-8'), 
-        'login'
-    )
-*/
-
 function login_post_test (req, res) {
     const filelist = fs.readdirSync(__dirname + '/BE_test/users')
     //form에서 받아온 정보의 집합
