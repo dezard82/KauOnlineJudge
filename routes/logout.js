@@ -3,13 +3,6 @@ const request = require('request')
 const myRouter = require('../lib/myRouter')
 const router = myRouter.Router()
 
-/*
-const express = require('express')
-const session = require('express-session')
-const FileStore = require('session-file-store')(session)
-
-const router = express.Router()
-*/
 function logout_test (req, res) {
     req.session.destroy(function (err) {
         console.log('logout')

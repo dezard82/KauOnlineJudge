@@ -42,7 +42,7 @@ function login_post_test (req, res) {
                 res.redirect(redir)
             }
             //리다이렉트 할 경로가 없는 경우 메인페이지로 리다이렉트
-            else res.redirect('/?id=login_success')
+            else res.redirect('/')
         })
     } else {    //로그인 실패
         console.error(`user name or email or password is invalid!`)
@@ -98,17 +98,21 @@ router.get('/', function(req, res) {    //로그인 페이지
     //로그인 이전 페이지를 redirect 쿠키에 저장
     if (router.cookie.parse(req.headers.cookie).redirect === undefined) 
         res.cookie('redirect', req.headers.referer)
+    let user = router.build.param.user
 
     router.build = {
         code: 200,
-        body: fs.readFileSync(__dirname + `/../html/login.html`, 'utf-8'),
-        title: 'login',
+        page: __dirname + '/../views/page/login',
         message: 'login',
-        user: router.build.user
+        param: {
+            title: 'Login',
+            user: user
+        }
     }
 
     //각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시
-    myRouter.show(res, router.build)
+    router.show(res)
+    //myRouter.show(res, router.build)
 })
 
 router.post('/', login_post_test)

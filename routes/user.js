@@ -1,6 +1,6 @@
 const fs = require('fs')
-const ejs = require('ejs')
 
+const js = require('../lib/KAUOnlineJudge')
 const myRouter = require('../lib/myRouter')
 
 const router = myRouter.Router()
@@ -12,23 +12,22 @@ router.get('/:id', function (req, res) {
 
     //사용자가 푼 문제들의 정보를 가져온 뒤 같은 결과끼리 모음
     let list = {}
-    const user = JSON.parse(fs.readFileSync(__dirname + `/BE_test/users/${req.params.id}.json`))
+    const user = JSON.parse(
+        fs.readFileSync(__dirname + `/BE_test/users/${req.params.id}.json`)
+    )
     for (q in user.submit) {
         if (list[user.submit[q]] == undefined) list[user.submit[q]] = []
         list[user.submit[q]].push(q)
-    } 
+    }
+    router.build.param.list = list
+    router.build.param.chart = js.chart
 
     //페이지 빌드
-    router.build.title = `${req.params.id}의 정보`
+    router.build.param.title = `${req.params.id}의 정보`
     router.build.message = `${req.params.id} info`
-    router.build.code = 200
-    router.build.body = ejs.render(
-        fs.readFileSync(__dirname + '/../views/user.ejs', 'utf-8'), { 
-            user: req.params.id, 
-            list: list
-        }
-    )
-    myRouter.show(res, router.build)
+    router.build.page = __dirname + '/../views/page/user'
+
+    router.show(res)
 })
 
 module.exports = router

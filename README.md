@@ -4,13 +4,13 @@
 
     express(웹 프레임워크)
     
-    ejs(뷰 엔진 - 동적 html 파일)
+    pug(뷰 엔진)
     
     body-parser(post 방식의 전송을 더욱 쉽게 만들어줌)
 
     request(BE와의 연결을 위한 모듈 - deprecated)
-    
-    helmet(자잘한 보안 이슈 자동 해결?)
+
+    express-session/session-file-store(사용자 정보를 쿠키 및 세션으로 저장)
 
 
 -----------------

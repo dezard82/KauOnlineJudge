@@ -80,39 +80,22 @@ function register_post (req, res) {
     })
 }
 
-/*
-const express = require('express')
-const session = require('express-session')
-const FileStore = require('session-file-store')(session)
-const bodyParser = require('body-parser')
-
-const js = require('../lib/KAUOnlineJudge.js')
-
-const router = express.Router()
-
-//서드 파티 미들웨어
-router.use(bodyParser.urlencoded({ extended: false }))
-//lib 폴더를 static으로 지정해 css, js, image 등을 사용할 수 있음
-router.use(express.static('lib'));
-
-js.show(
-        res, 200, 'register', '로그인',
-        fs.readFileSync(__dirname + `/../html/register.html`, 'utf-8'), 
-        'register'
-    )
-*/
-
 router.get('/', function(req, res) {    //회원가입 페이지
+    let user = router.build.param.user
+
     router.build = {
         code: 200,
-        body: fs.readFileSync(__dirname + `/../html/register.html`, 'utf-8'),
-        title: 'register',
+        page: __dirname + '/../views/page/register',
         message: 'register',
-        user: router.build.user
+        param: {
+            title: 'Register',
+            user: user
+        }
     }
 
     //각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시한다
-    myRouter.show(res, router.build)
+    router.show(res)
+    //myRouter.show(res, router.build)
 })
 
 router.post('/', register_post_test)

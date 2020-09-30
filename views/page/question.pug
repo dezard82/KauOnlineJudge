@@ -1,0 +1,99 @@
+extends ../page
+
+block content
+    include ../mixin
+
+    h1= q.name
+        //button.btn.btn-link(type='button' onclick="location.href='${my_url}/question_solver?num=${num}")
+
+    table.table.table-striped
+        thead
+            tr
+                th 시간 제한
+                th 메모리 제한
+                th 태그
+                th 제출
+                th 정답자 수
+                th 정답률
+        tbody
+            tr 
+                td= q.table.time_limit
+                td= q.table.mem_limit
+                td
+                    +tags(q.table.tag)
+                td 
+                    +tags([submit])
+                td= q.table.cnt
+                td= q.table.pcnt
+    #problem_info
+        #problem_explanation
+            h3 문제 설명
+            p= q.info
+        br
+        #problem_input
+            h3 입력 조건
+            p= q.input
+        br
+        #problem_output
+            h3 출력 조건
+            p= q.output
+        br
+        br
+
+        each ex, index in q.example
+            -var i = index + 1
+            .row
+                .col-md-6
+                    .headline
+                        h3 예제 입력 #{i}
+                            button.btn.btn-link(
+                                type='button' 
+                                onclick="copyToClipboard(" + `\'input_${i}\'` + ");"
+                            ) 복사
+                    pre.sampledata(id=`input_${i}`)= ex.input
+                .col-md-6
+                    .headline
+                        h3 예제 출력 #{i}
+                            button.btn.btn-link(
+                                type='button' 
+                                onclick="copyToClipboard(" + `\'output_${i}\'` + ");"
+                            ) 복사
+                    pre.sampledata(id=`output_${i}`)= ex.output
+    
+    // 문제의 답 제출
+    hr
+    br
+    h5 언어
+    select#lang(name='lang')
+        option(value='0') C
+        option(value='1') C++
+        option(value='2') Java
+        option(value='3') Python
+    br
+    br
+    h5 소스 코드
+    textarea#code.form-control(
+        onkeydown='resize(this)'
+        onkeyup='resize(this)' 
+        rows='15' 
+        placeholder='여기에 코드를 입력해주세요'
+    )
+    br
+    a.btn.btn-primary.text-white(role='button') 제출
+
+    script.
+        function copyToClipboard(elementId) {
+            console.log('function called')
+            // 글을 쓸 수 있는 란을 만든다.
+            let aux = document.createElement("input");
+            // 지정된 요소의 값을 할당 한다.
+            aux.setAttribute("value", document.getElementById(elementId).innerHTML);
+            // body에 추가한다.
+            document.body.appendChild(aux);
+            // 지정된 내용을 강조한다.
+            aux.select();
+            // 텍스트를 카피하는 변수를 생성
+            document.execCommand("copy");
+            // body로 부터 다시 반환 한다.
+            document.body.removeChild(aux);
+        }
