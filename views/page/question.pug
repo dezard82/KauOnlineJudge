@@ -3,6 +3,15 @@ extends ../page
 block content
     include ../mixin
 
+    style(type='text/css').
+        p {
+            text-indent: 10px;
+            margin-bottom: 3px;
+        }
+        .m_b {
+            margin-bottom: 30px;
+        }
+
     h1= q.name
         //button.btn.btn-link(type='button' onclick="location.href='${my_url}/question_solver?num=${num}")
 
@@ -26,18 +35,21 @@ block content
                 td= q.table.cnt
                 td= q.table.pcnt
     #problem_info
-        #problem_explanation
+        .m_b#problem_explanation
             h3 문제 설명
-            p= q.info
-        br
-        #problem_input
+            each line in q.info
+                p= line
+            
+        .m_b#problem_input
             h3 입력 조건
-            p= q.input
-        br
-        #problem_output
+            each line in q.input
+                p= line
+            
+        .m_b#problem_output
             h3 출력 조건
-            p= q.output
-        br
+            each line in q.output
+                p= line
+            
         br
 
         each ex, index in q.example
@@ -62,15 +74,13 @@ block content
     
     // 문제의 답 제출
     hr
-    br
     h5 언어
-    select#lang(name='lang')
+    select.m_b#lang(name='lang')
         option(value='0') C
         option(value='1') C++
         option(value='2') Java
         option(value='3') Python
-    br
-    br
+
     h5 소스 코드
     textarea#code.form-control(
         onkeydown='resize(this)'

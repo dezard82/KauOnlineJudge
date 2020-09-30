@@ -58,7 +58,6 @@ router.get('/:num', function (req, res) {  //한 문제의 정보 및 해답 제
         router.build.page = __dirname + '/../views/page/question'
         router.build.param.title = `${req.params.num}. ${q.name}`
         router.build.param.q = q
-        //router.build.param.copyToClipboard = js.copyToClipboard
     } catch (err) { //          　 없는 경우
         router.build.code = 404;
         router.build.param.title = 'Question no. Error'

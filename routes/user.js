@@ -20,7 +20,6 @@ router.get('/:id', function (req, res) {
         list[user.submit[q]].push(q)
     }
     router.build.param.list = list
-    router.build.param.chart = js.chart
 
     //페이지 빌드
     router.build.param.title = `${req.params.id}의 정보`

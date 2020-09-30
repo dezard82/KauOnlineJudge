@@ -1,5 +1,5 @@
 // 상단바 시작
-nav.navbar.navbar-expand-lg.navbar-light.bg-light
+nav.navbar.navbar-expand-lg.navbar-light.bg-light.m-2
     a.navbar-brand(href='/') 항공대 OJ
     // 메뉴 드롭다운 버튼
     button.navbar-toggler(
@@ -31,12 +31,13 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
                 a.nav-link(href=`/user/${user}`) #{user}
             li.nav-item
                 a.nav-link(href='#') 랭킹
+
         //세션이 없을 때 누르면 로그인,
           　　　 있을 때 누르면 로그아웃
         -if (user == '내 정보')
-            a.btn.btn-outline-primary(href='/login') 로그인
+            a.m-1(href='/login') 로그인
         -else
-            a.btn.btn-outline-primary(href='/logout') 로그아웃
+            a.m-1(href='/logout') 로그아웃
 
         // 검색창
         form.form-inline.my-2.my-lg-0
@@ -48,4 +49,3 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
             button.btn.btn-outline-primary.my-2.my-sm-0(type='submit')
                 a(href='#')
                     i.fa.fa-search
-br
