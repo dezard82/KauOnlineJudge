@@ -10,16 +10,19 @@ router.get('/:id', function (req, res) {
     if (!fs.readdirSync(__dirname + `/BE_test/users`).includes(`${req.params.id}.json`))
         res.redirect('/login')
 
-    //사용자가 푼 문제들의 정보를 가져온 뒤 같은 결과끼리 모음
+    //사용자가 푼 문제들의 정보를 가져온 뒤
     let list = {}
     const user = JSON.parse(
         fs.readFileSync(__dirname + `/BE_test/users/${req.params.id}.json`)
     )
+
+    //문제풀이 정보를 같은 결과끼리 모음
     for (q in user.submit) {
         if (list[user.submit[q]] == undefined) list[user.submit[q]] = []
         list[user.submit[q]].push(q)
     }
     router.build.param.list = list
+    router.build.param.id = req.params.id
 
     //페이지 빌드
     router.build.param.title = `${req.params.id}의 정보`
