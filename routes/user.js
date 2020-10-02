@@ -6,6 +6,7 @@ const myRouter = require('../lib/myRouter')
 const router = myRouter.Router()
 
 router.get('/', (req, res) => { //잘못 접근했을 경우 다른 페이지로 리다이렉트
+    req.session.redirect = '/user'
     if (req.user == undefined) res.redirect('/login')
     else res.redirect(`/user/${req.user.username}`)
 })

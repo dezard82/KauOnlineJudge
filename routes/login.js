@@ -73,11 +73,12 @@ function login_post (username, password, done) {
 }
 
 router.get('/', (req, res) => {    //로그인 페이지
-    //이전 페이지가 로그인 혹은 회원가입이 아니었다면
-    //로그인 직후 해당 페이지로 리다이렉트
-    if (!['login', 'register'].includes(req.headers.referer.split('/')[3])) 
-        router.redirect = req.headers.referer
-
+    //이전 페이지가 로그인 혹은 회원가입 페이지가 아니라면
+    if (!['login', 'register'].includes(req.headers.referer.split('/')[3])) {
+        //이전 페이지가 지정해 준 리다이렉트, 혹은 이전 페이지로 리다이렉트를 설정한다
+        router.redirect = (req.session.redirect) ? req.session.redirect : req.headers.referer
+    }
+    
     router.build = {
         code: 200,
         page: __dirname + '/../views/page/login',
@@ -88,19 +89,19 @@ router.get('/', (req, res) => {    //로그인 페이지
         }
     }
 
-    console.log(router.build.param.flash)
-
     //각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시
     router.show(req, res)
 })
 
 router.post('/',                        //passport로 로그인한 뒤 미리 지정한 경로로 리다이렉트
     passport.authenticate('local', {
-        failureRedirect: '/login',
+        failureRedirect: 'back',
         failureFlash: true
     }), (req, res) => {
         //세션을 저장하지 않으면 로그인 반영이 늦어짐
         req.session.save(() => {
+            //이전에 설정한 리다이렉트를 제거한 뒤 리다이렉트
+            req.session.redirect = undefined
             res.redirect((router.redirect != undefined) ? router.redirect : '/')
         })
     }

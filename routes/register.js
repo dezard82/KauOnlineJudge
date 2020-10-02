@@ -127,8 +127,6 @@ router.get('/', (req, res) => {    //회원가입 페이지
         }
     }
 
-    console.log(router.build.param.flash)
-
     //각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시한다
     router.show(req, res)
 })
