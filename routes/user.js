@@ -5,7 +5,12 @@ const myRouter = require('../lib/myRouter')
 
 const router = myRouter.Router()
 
-router.get('/:id', function (req, res) {
+router.get('/', (req, res) => { //잘못 접근했을 경우 다른 페이지로 리다이렉트
+    if (req.user == undefined) res.redirect('/login')
+    else res.redirect(`/user/${req.user.username}`)
+})
+
+router.get('/:id', (req, res) => {
     //없는 유저의 유저 페이지를 확인하려 하면 에러 메세지를 출력해야 함
     if (!fs.readdirSync(__dirname + `/BE_test/users`).includes(`${req.params.id}.json`))
         res.redirect('/login')
@@ -29,7 +34,7 @@ router.get('/:id', function (req, res) {
     router.build.message = `${req.params.id} info`
     router.build.page = __dirname + '/../views/page/user'
 
-    router.show(res)
+    router.show(req, res)
 })
 
 module.exports = router

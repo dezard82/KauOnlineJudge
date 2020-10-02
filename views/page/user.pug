@@ -5,23 +5,23 @@ block content
     hr(style="margin-bottom: 2em;")
     -if (Object.keys(list).length === 0) 
         center
-            h1
-                | 문제풀이 정보가 존재하지 않습니다! <br>
-                a(href='/question') 문제 풀러 가기
+            h1.m-2 문제풀이 정보가 존재하지 않습니다! <br>
+                -if(user == id)
+                    a.m-2(href='/question') 문제 풀러 가기
     -else
         .row
             .col-6
                 canvas#chart
             .col-6
                 -for (item in list)
-                    h3= item
-                    -var item = list[item]
-                    hr
-                    -for (var i in item)
-                        a(href=`/question/${item[i]}`)= item[i]
-                        | &nbsp;
-                    br 
-                    br
+                    .mb-4
+                        h3= item
+                        -var item = list[item]
+                        hr
+                        -for (var i in item)
+                            a(href=`/question/${item[i]}`)= item[i]
+                            | &nbsp;
+                    
 
     // 임시로 생성한 차트
     script(type="text/javascript" src='https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js')

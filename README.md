@@ -12,6 +12,10 @@
 
     express-session/session-file-store(사용자 정보를 쿠키 및 세션으로 저장)
 
+    passport/passport-local(로그인/로그아웃 기능 강화)
+
+    connect-flash(로그인/회원가입 실패 시 에러 메세지 띄우기)
+
 
 -----------------
 -----------------

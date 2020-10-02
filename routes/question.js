@@ -6,14 +6,16 @@ const myRouter = require('../lib/myRouter.js')
 const router = myRouter.Router()
 const filelist = fs.readdirSync(__dirname + `/BE_test/question`)
 
-router.get('*', function (req, res, next) {
-    let user = router.build.param.user
+router.get('*', (req, res, next) => {
+    let user = req.user
     //현재 로그인 한 사용자의 문제 제출 리스트
-    router.submit = (user === '내 정보') ? {} : JSON.parse(fs.readFileSync(__dirname + `/BE_test/users/${user}.json`).toString()).submit
+    router.submit = (user === undefined) ? 
+        {} 
+      : JSON.parse(fs.readFileSync(__dirname + `/BE_test/users/${user.username}.json`).toString()).submit
     next()
 })
 
-router.get('/', function (req, res) {      //문제의 리스트
+router.get('/', (req, res) => {      //문제의 리스트
     //페이지에 표시할 문제의 정보를 담은 json
     let q_list = {}
     //디렉토리에서 가져온 문제에 대해
@@ -43,21 +45,24 @@ router.get('/', function (req, res) {      //문제의 리스트
 
     router.build.param.q_list = q_list
 
-    router.show(res)
+    router.show(req, res)
 })
 
-router.get('/:num', function (req, res) {  //한 문제의 정보 및 해답 제출란
+router.get('/:num', (req, res) => {  //한 문제의 정보 및 해답 제출란
     var num = req.params.num
     router.build.message = `question no.${num}`
-
+    console.log(router.submit)
+    console.log(router.submit[num])
+    
     try {           //`num`.json이 있는 경우
         //문제의 정보를 담은 json 파일을 객체로 저장
         const q = JSON.parse(fs.readFileSync(__dirname + `/BE_test/question/${req.params.num}.json`).toString());
         
         //문제 정보를 question.ejs에 넘겨 문제 페이지를 생성
         router.build.page = __dirname + '/../views/page/question'
-        router.build.param.title = `${req.params.num}. ${q.name}`
+        router.build.param.title = `${num}. ${q.name}`
         router.build.param.q = q
+        router.build.param.submit = router.submit[num]
     } catch (err) { //          　 없는 경우
         router.build.code = 404;
         router.build.param.title = 'Question no. Error'
@@ -65,8 +70,7 @@ router.get('/:num', function (req, res) {  //한 문제의 정보 및 해답 제
     }
     
     //각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시한다
-    //js.show(res, code, title, user, body, message)
-    router.show(res)
+    router.show(req, res)
 })
 
 module.exports = router

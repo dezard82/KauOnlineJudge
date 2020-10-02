@@ -1,6 +1,9 @@
 extends ../page
 
 block content
+    -if (flash.error != undefined)
+        script.
+            alert(!{JSON.stringify(flash.error)})
     article.card-body
         a.float-right.btn.btn-outline-primary(href='/register') 회원가입
         h4.card-title.mb-4.mt-1 로그인
@@ -14,10 +17,6 @@ block content
                   label
                     input(type='checkbox')
                     | 아이디 / 이메일 저장
-            // 버그 방지용 빈 input
-            .form-group(style='display:none')
-                label(for='email') 이메일
-                input.form-control(name='email' type='email' placeholder='example@example.com')
             // 비밀번호
             .form-group
                 // a.float-right(href='#')비밀번호 찾기

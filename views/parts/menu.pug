@@ -28,16 +28,16 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.md-2
                     .dropdown-divider
                     a.dropdown-item(href='/question') 문제
             li.nav-item
-                a.nav-link(href=`/user/${user}`) #{user}
+                a.nav-link(href=`/user`) #{(user == undefined) ? '내 정보' : user}
             li.nav-item
                 a.nav-link(href='#') 랭킹
 
         //세션이 없을 때 누르면 로그인,
           　　　 있을 때 누르면 로그아웃
-        -if (user == '내 정보')
-            a.m-1(href='/login') 로그인
+        -if (user == undefined)
+            a.mr-1(href='/login') 로그인
         -else
-            a.m-1(href='/logout') 로그아웃
+            a.mr-1(href='/logout') 로그아웃
 
         // 검색창
         form.form-inline.my-2.my-lg-0
