@@ -9,18 +9,16 @@ block content
                 th 문제 이름
                 th 태그
                 th 채점
-                th 정답자 수
-                th 정답률
         tbody
             -for (q in q_list) 
                 -q = q_list[q]
                 tr 
-                    td #{q.num}
+                    td #{q._id}
                     td
-                        a(href=`/question/${q.num}`) #{q.name}
+                        a(href=`/question/${q._id}`) #{q.title}
                     td
                         +tags(q.tags)
                     td 
                         +tags([q.submit])
-                    td #{q.cnt}
-                    td #{q.pcnt}
+    .text-right
+        a.btn.btn-outline-primary(href='/question/create') 문제 추가

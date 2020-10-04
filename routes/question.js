@@ -1,10 +1,12 @@
 const fs = require('fs')
 
-const js = require('../lib/KAUOnlineJudge.js')
-const myRouter = require('../lib/myRouter.js')
+const myRouter = require('../lib/myRouter')
 
 const router = myRouter.Router()
 const filelist = fs.readdirSync(__dirname + `/BE_test/question`)
+
+
+router.use('/create', require('./question_create'))
 
 router.get('*', (req, res, next) => {
     let user = req.user
@@ -27,18 +29,15 @@ router.get('/', (req, res) => {      //문제의 리스트
         if ((req.query.tag != undefined) && !(q_file.table.tag.includes(req.query.tag))) return false
 
         //표시할 문제 정보를 json 형태로 q_list에 push
-        let num = q.split('.')[0]
-        q_list[num] = {
-            num: num,
-            name: q_file.name,
-            tags: q_file.table.tag,
-            submit: (router.submit[num] == undefined ? '' : router.submit[num]),
-            cnt: q_file.table.cnt,   //count
-            pcnt: q_file.table.pcnt  //percent
+        q_list[q_file._id] = {
+            _id: q_file._id,
+            title: q_file.title,
+            tags: q_file.tags,
+            submit: (router.submit[q_file._id] == undefined ? '' : router.submit[q_file._id])
         }
     })
 
-    router.build.page = __dirname + '/../views/page/question_list'
+    router.build.page = '/question_list'
     router.build.message = 'question list'
     if (req.query.tag != undefined) 
         router.build.message += `: ${req.query.tag}`
@@ -48,21 +47,19 @@ router.get('/', (req, res) => {      //문제의 리스트
     router.show(req, res)
 })
 
-router.get('/:num', (req, res) => {  //한 문제의 정보 및 해답 제출란
-    var num = req.params.num
-    router.build.message = `question no.${num}`
-    console.log(router.submit)
-    console.log(router.submit[num])
+router.get('/:_id', (req, res) => {  //한 문제의 정보 및 해답 제출란
+    var _id = req.params._id
+    router.build.message = `question no.${_id}`
     
-    try {           //`num`.json이 있는 경우
+    try {           //`_id`.json이 있는 경우
         //문제의 정보를 담은 json 파일을 객체로 저장
-        const q = JSON.parse(fs.readFileSync(__dirname + `/BE_test/question/${req.params.num}.json`).toString());
+        const q = JSON.parse(fs.readFileSync(__dirname + `/BE_test/question/${_id}.json`).toString());
         
         //문제 정보를 question.ejs에 넘겨 문제 페이지를 생성
-        router.build.page = __dirname + '/../views/page/question'
-        router.build.param.title = `${num}. ${q.name}`
+        router.build.page = '/question'
+        router.build.param.title = `${_id}. ${q.title}`
         router.build.param.q = q
-        router.build.param.submit = router.submit[num]
+        router.build.param.submit = router.submit[_id]
     } catch (err) { //          　 없는 경우
         router.build.code = 404;
         router.build.param.title = 'Question no. Error'

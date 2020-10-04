@@ -10,7 +10,7 @@ router.get('/', (req, res) => {  //메인 페이지
     router.build.message = req.query.id
 
     if (fs.readdirSync(__dirname + '/../views/page').includes(`${req.query.id}.pug`)) {
-        router.build.page = __dirname + '/../views/page/' + req.query.id
+        router.build.page = '/' + req.query.id
         router.build.param.text = '아무 기능 없는 버튼'
     } else {
         router.build.code = 404;

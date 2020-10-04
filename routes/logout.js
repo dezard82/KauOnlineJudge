@@ -3,29 +3,21 @@ const request = require('request')
 const myRouter = require('../lib/myRouter')
 const router = myRouter.Router()
 
-function logout_test (req, res) {
-    console.log('logout')
+router.get('/', (req, res) => {
+    console.log(req.headers.referer)
 
-    req.logout()
-    req.user = undefined
-    req.session.save((err) => {
-        res.redirect('back')
-    })
-}
+    if(req.user == undefined) res.redirect('/')
 
-function logout (req, res) {
-    console.log('logout')
+    console.log(`${new Date()} ${req.user.username}\nlogout`)
 
-    const logout = {
+    request.get({
         uri: 'http://dofh.iptime.org:8000/api/logout/'//,
-    }
-    request.get(logout)
+    })
+    
     req.logout()
     req.session.save((err) => {
         res.redirect('back')
     })
-}
-
-router.get('/', logout_test)
+})
 
 module.exports = router

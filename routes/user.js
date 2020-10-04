@@ -1,6 +1,5 @@
 const fs = require('fs')
 
-const js = require('../lib/KAUOnlineJudge')
 const myRouter = require('../lib/myRouter')
 
 const router = myRouter.Router()
@@ -33,7 +32,7 @@ router.get('/:id', (req, res) => {
     //페이지 빌드
     router.build.param.title = `${req.params.id}의 정보`
     router.build.message = `${req.params.id} info`
-    router.build.page = __dirname + '/../views/page/user'
+    router.build.page = '/user'
 
     router.show(req, res)
 })

@@ -75,13 +75,25 @@ function register_post (req, res) {
     if (post.password != post.password_check) {
         //비밀번호와 비밀번호 확인이 일치하지 않는다면
         //경고창을 표시한 뒤 다시 회원가입 페이지로 이동
+        req.flash('error', 'password:\n    Password not matched!')
         console.log('password != password_check')
-        res.redirect('back')
+        
+        req.session.save(() => {
+            res.redirect('/register')
+        })
+    
+        return false
     } else if (post.agree != 'on') {
         //이용약관에 동의하지 않는다면
         //경고창을 표시한 뒤 다시 회원가입 페이지로 이동
+        req.flash('error', 'Please Agree to the Terms of Use!')
         console.log('terms of use unchecked')
-        res.redirect('back')
+        
+        req.session.save(() => {
+            res.redirect('/register')
+        })
+    
+        return false
     }
 
     //request로 전송할 데이터 집합
@@ -90,36 +102,55 @@ function register_post (req, res) {
         form: { 
             username: post.username,
             email: post.email,
-            password: post.password,
-            password_check: post.password_check
+            password: post.password
         }
     }
 
-    request.post(register, function (err, serverRes, body) {
-        if (err) { }    //회원가입 요청에 실패한 경우 
+    request.post(register, (err, serverRes, body) => {
+        if (err) {     //회원가입 요청에 실패한 경우 
+            req.flash('error', 'Unknown Server Error!')
+            console.error(err)
+            
+            req.session.save(() => {
+                res.redirect('/register')
+            })
+        }    //회원가입 요청에 실패한 경우 
 
         //body는 json 형태의 파일이므로 이를 해석 가능하게끔 파싱
         body = JSON.parse(body)
 
         if (body.error) {   //백엔드에서 회원가입을 거부했다면
-            //거부 사유가 담긴 body.data를 에러메세지로 띄운다
-            req.flash('error', body.data)
-            console.log(body.data)
+            //거부 사유가 담긴 body.data를 string화 한 뒤 에러메세지로 띄운다
+            let message = ''
+            for (item in body.data) {
+                if (item != 'non_field_errors')
+                    message += item + ':\n'
+                body.data[item].forEach(msg => {
+                    message += '    ' + msg + '\n'
+                })
+            }
+
+            req.flash('error', message)
 
             req.session.save(() => {
-                res.redirect('back')
+                res.redirect('/register')
             })
-        } 
-        
-        console.log(`${post.username} has registered!`)
-        res.redirect('/login')
-    })
+        } else {
+            //회원가입 메세지를 띄운 뒤 로그인 페이지로 리다이렉트
+            req.flash('error', 'You have successfully registered!\nNow you can log in.')
+            console.log(`${post.username} registered`)
+            
+            req.session.save(() => {
+                res.redirect('/login')
+            })
+        }
+    }) 
 }
 
 router.get('/', (req, res) => {    //회원가입 페이지
     router.build = {
         code: 200,
-        page: __dirname + '/../views/page/register',
+        page: '/register',
         message: 'register',
         param: {
             title: 'Register',
