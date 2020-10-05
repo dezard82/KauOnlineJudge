@@ -20,5 +20,6 @@ block content
                         +tags(q.tags)
                     td 
                         +tags([q.submit])
-    .text-right
-        a.btn.btn-outline-primary(href='/question/create') 문제 추가
+    -if (user !== undefined)
+        .text-right
+            a.btn.btn-outline-primary(href='/question/create') 문제 추가

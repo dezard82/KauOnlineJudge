@@ -150,7 +150,7 @@ function register_post (req, res) {
 router.get('/', (req, res) => {    //회원가입 페이지
     router.build = {
         code: 200,
-        page: '/register',
+        page: 'register',
         message: 'register',
         param: {
             title: 'Register',

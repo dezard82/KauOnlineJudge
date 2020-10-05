@@ -8,6 +8,7 @@ const app = express()
 app.set('view engine', 'pug')
 app.set('views', './views')
 
+
 //페이지에서 사용할 세션의 정보
 app.use(session({
     //secure: true,
@@ -22,9 +23,9 @@ app.use(session({
 app.use('/login',       require('./routes/login'))    //로그인 페이지
 app.use('/logout',      require('./routes/logout'))   //로그아웃 페이지
 app.use('/question',    require('./routes/question')) //문제 페이지
-app.use('/register',    require('./routes/register')) //회원가입 페이지, 사용자에게 메세지 띄우지 않음
+app.use('/register',    require('./routes/register')) //회원가입 페이지
 app.use('/',            require('./routes/root'))     //기본 페이지
-app.use('/user',        require('./routes/user'))     /*사용자 정보 페이지, 사용자 통계를 표시하지 못함*/
+app.use('/user',        require('./routes/user'))     //사용자 정보 페이지
 
 //app.use('/write', writeRouter)
 

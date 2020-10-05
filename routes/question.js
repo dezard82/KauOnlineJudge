@@ -5,7 +5,6 @@ const myRouter = require('../lib/myRouter')
 const router = myRouter.Router()
 const filelist = fs.readdirSync(__dirname + `/BE_test/question`)
 
-
 router.use('/create', require('./question_create'))
 
 router.get('*', (req, res, next) => {
@@ -37,7 +36,7 @@ router.get('/', (req, res) => {      //문제의 리스트
         }
     })
 
-    router.build.page = '/question_list'
+    router.build.page = 'question_list'
     router.build.message = 'question list'
     if (req.query.tag != undefined) 
         router.build.message += `: ${req.query.tag}`
@@ -56,7 +55,7 @@ router.get('/:_id', (req, res) => {  //한 문제의 정보 및 해답 제출란
         const q = JSON.parse(fs.readFileSync(__dirname + `/BE_test/question/${_id}.json`).toString());
         
         //문제 정보를 question.ejs에 넘겨 문제 페이지를 생성
-        router.build.page = '/question'
+        router.build.page = 'question'
         router.build.param.title = `${_id}. ${q.title}`
         router.build.param.q = q
         router.build.param.submit = router.submit[_id]

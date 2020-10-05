@@ -78,7 +78,7 @@ router.get('/', (req, res) => {    //로그인 페이지
 
     router.build = {
         code: 200,
-        page: '/login',
+        page: 'login',
         message: 'login',
         param: {
             title: 'Login',

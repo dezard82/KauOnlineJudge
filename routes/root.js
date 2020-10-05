@@ -10,13 +10,12 @@ router.get('/', (req, res) => {  //메인 페이지
     router.build.message = req.query.id
 
     if (fs.readdirSync(__dirname + '/../views/page').includes(`${req.query.id}.pug`)) {
-        router.build.page = '/' + req.query.id
+        router.build.page = req.query.id
         router.build.param.text = '아무 기능 없는 버튼'
     } else {
-        router.build.code = 404;
-        router.build.page = 'page'
-        router.build.param.title = '404 Error'
-        router.build.message += '.html not found'
+        router.build.page = 'index'
+        router.build.message = 'index'
+        router.build.param.text = '아무 기능 없는 버튼'
     }
 
     //각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시한다
