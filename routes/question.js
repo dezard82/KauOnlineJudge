@@ -112,13 +112,12 @@ function question (req, res) {  //한 문제의 정보 및 해답 제출란
         } else {
             try {
                 body = JSON.parse(body)
-                fs.writeFileSync(`body.json`, JSON.stringify(body.data), 'utf8')
                 
                 //문제 정보를 question.pug에 넘겨 문제 페이지를 생성
                 router.build.page = 'question'
                 router.build.param.title = `${_id}. ${body.data.title}`
                 router.build.param.q = body.data
-                router.build.param.submit = ''/* router.submit[_id] */
+                //router.build.param.submit = ''/* router.submit[_id] */
             } catch (err) { //          　 없는 경우
                 console.error(err)
                 router.build.code = 404;

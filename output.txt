@@ -1,4 +1,0 @@
-{
-    "error": "login-required",
-    "data": "Please login in first"
-}
