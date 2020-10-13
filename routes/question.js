@@ -12,7 +12,7 @@ router.get('*', (req, res, next) => {
     //현재 로그인 한 사용자의 문제 제출 리스트
     router.submit = (user === undefined) ? 
         {} 
-      : JSON.parse(fs.readFileSync(__dirname + `/BE_test/users/${user.username}.json`).toString()).submit
+      : {}/* JSON.parse(fs.readFileSync(__dirname + `/BE_test/users/${user.username}.json`).toString()).submit */
     next()
 })
 

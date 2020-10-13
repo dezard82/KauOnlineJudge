@@ -1,10 +1,11 @@
 extends ../page
 
 block content
+    include ../mixin
+    
     article.card-body
         h4.card-title.mb-4.mt-1 문제 생성
-        //form(name='question_create' action='/question_create' method='POST')
-        form(name='question_create' action='#' method='POST')
+        form(name='question_create' action='/question/create' method='POST')
             // 제목
             .form-group
                 label(for='title') 제목
@@ -32,6 +33,7 @@ block content
             //예제 추가 / 취소/제출하기
             .form-group.row
                 .col-6
+                    -var i = 0
                     button.btn.btn-secondary.m-auto(type='button' onclick="alert(\"준비중입니다\")")
                         | 예제 추가
                 .col-6.text-right

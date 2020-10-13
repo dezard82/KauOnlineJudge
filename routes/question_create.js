@@ -7,18 +7,70 @@ const router = myRouter.Router()
 
 router.get('/', (req, res) => {
     if (req.user == undefined) res.redirect('/question')
+    
+    else {
+        router.build = {
+            code: 200,
+            page: 'question_create',
+            message: 'question_create',
+            param: {
+                title: 'Question Create'
+            }
+        }
 
-    router.build = {
-        code: 200,
-        page: 'question_create',
-        message: 'question_create',
-        param: {
-            title: 'Question Create'
+        //각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시
+        router.show(req, res)
+    }
+})
+
+router.post('/', (req, res) => {
+    //form에서 받아온 정보의 집합
+    var post = req.body
+
+    const question_create = {
+        uri: 'http://dofh.iptime.org:8000/api/problem',
+        header: {
+            'X-Csrftoken': req.user.csrftoken,
+            Cookie: {
+                sessionid: req.user.sessionid
+            },
+            'Content-Type': 'application/json'
+        },
+        json: {
+            _id: 65535,
+            title: post.title,
+            time_limit: post.time_limit,
+            memory_limit: post.memory_limit,
+            tags: post.tags,
+            description: post.description,
+            input_description: post.input_description,
+            output_description: post.output_description,
+            sample: [
+                {
+                    input: "test_input_1",
+                    output: "test_output_1"
+                },
+                {
+                    input: "test_input_2",
+                    output: "test_output_2"
+                }
+            ]
         }
     }
 
-    //각 페이지에 해당하는 내용을 완성했으면 log와 함께 페이지를 표시
-    router.show(req, res)
+    request.post(question_create, (err, serverRes, body) => {
+        if (err) {     //문제 작성 요청에 실패한 경우 
+            console.error(err)
+
+            res.redirect('/question/create')
+        }
+
+        //body = JSON.parse(body)
+        fs.writeFileSync(`body.json`, JSON.stringify(body), 'utf8')
+        console.log(body)
+
+    })
+    res.redirect('/question/create')
 })
 
 module.exports = router

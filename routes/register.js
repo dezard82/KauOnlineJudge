@@ -162,7 +162,7 @@ router.get('/', (req, res) => {    //회원가입 페이지
     router.show(req, res)
 })
 
-router.post('/', register_post_test)
+router.post('/', register_post)
 
 module.exports = router
 /* */

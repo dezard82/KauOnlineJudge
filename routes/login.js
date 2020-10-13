@@ -1,5 +1,4 @@
 const fs = require('fs')
-const url = require('url')
 const request = require('request')
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
@@ -11,7 +10,7 @@ const router = myRouter.Router()
 passport.use(new LocalStrategy({
         usernameField: 'username',
         passwordField: 'password'
-    },  login_post_test
+    },  login_post
 ))
 
 function login_post_test (username, password, done) {
@@ -61,8 +60,12 @@ function login_post (username, password, done) {
             return done(null, false, { message: 'Username or Password Incorrect!' })
         } 
 
-        //로그인에 성공했으므로 콘솔에 로그를 찍고
-        console.log(`${username} logged in`)
+        let res_cookie = [
+            serverRes.headers['set-cookie'][0].split('; '),
+            serverRes.headers['set-cookie'][1].split('; ')
+        ]
+        login.form.csrftoken = res_cookie[0][0].split('=')[1]
+        login.form.sessionid = res_cookie[1][0].split('=')[1]
         
         //정상적으로 로그인을 실행
         return done(null, login.form)
