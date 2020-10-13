@@ -10,10 +10,9 @@ block content
                 th 태그
                 th 채점
         tbody
-            -for (q in q_list) 
-                -q = q_list[q]
-                tr 
-                    td #{q._id}
+            each q in q_list
+                tr
+                    td= q._id
                     td
                         a(href=`/question/${q._id}`) #{q.title}
                     td

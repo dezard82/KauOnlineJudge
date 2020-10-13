@@ -25,15 +25,19 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     //form에서 받아온 정보의 집합
-    var post = req.body
+    let post = req.body
+
+    //페이지에서 받아온 태그를 ','로 나눈 뒤 앞뒤 공백을 제거한다
+    post.tags = post.tags.split(',')
+    for (let i in post.tags) {
+        post.tags[i] = post.tags[i].trim()
+    }
 
     const question_create = {
         uri: 'http://dofh.iptime.org:8000/api/problem',
-        header: {
+        headers: {
             'X-Csrftoken': req.user.csrftoken,
-            Cookie: {
-                sessionid: req.user.sessionid
-            },
+            Cookie: `sessionid=${req.user.sessionid};csrftoken=${req.user.csrftoken};`,
             'Content-Type': 'application/json'
         },
         json: {
@@ -45,7 +49,7 @@ router.post('/', (req, res) => {
             description: post.description,
             input_description: post.input_description,
             output_description: post.output_description,
-            sample: [
+            samples: [
                 {
                     input: "test_input_1",
                     output: "test_output_1"

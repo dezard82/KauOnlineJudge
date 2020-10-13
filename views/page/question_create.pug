@@ -18,6 +18,10 @@ block content
                 .col-6
                     label(for='memory_limit') 메모리 제한
                     input#memory_limit.form-control(name='memory_limit')
+            // 제목
+            .form-group
+                label(for='tags') 제목
+                input#tags.form-control(name='tags' type='tags' placeholder='태그는 쉼표(,)로 구분하여 입력')
             // 문제 설명
             .form-group
                 label(for='description') 문제 설명
