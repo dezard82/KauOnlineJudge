@@ -25,13 +25,26 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     //form에서 받아온 정보의 집합
-    let post = req.body
+    const post = req.body
 
     //페이지에서 받아온 태그를 ','로 나눈 뒤 앞뒤 공백을 제거한다
     post.tags = post.tags.split(',')
     for (let i in post.tags) {
         post.tags[i] = post.tags[i].trim()
     }
+
+    post.samples = []
+
+    for (let i in post.input) {
+        post.samples.push({
+            input: post.input[i],
+            output: post.output[i]
+        })
+    }
+
+    post.input = undefined
+    post.output = undefined
+    post._id = new Date().getTime()
 
     const question_create = {
         uri: 'http://dofh.iptime.org:8000/api/problem',
@@ -40,39 +53,16 @@ router.post('/', (req, res) => {
             Cookie: `sessionid=${req.user.sessionid};csrftoken=${req.user.csrftoken};`,
             'Content-Type': 'application/json'
         },
-        json: {
-            _id: 65535,
-            title: post.title,
-            time_limit: post.time_limit,
-            memory_limit: post.memory_limit,
-            tags: post.tags,
-            description: post.description,
-            input_description: post.input_description,
-            output_description: post.output_description,
-            samples: [
-                {
-                    input: "test_input_1",
-                    output: "test_output_1"
-                },
-                {
-                    input: "test_input_2",
-                    output: "test_output_2"
-                }
-            ]
-        }
+        json: post
     }
 
     request.post(question_create, (err, serverRes, body) => {
-        if (err) {     //문제 작성 요청에 실패한 경우 
-            console.error(err)
+        if (err || body.error) {     //문제 작성 요청에 실패한 경우 
+            console.error('err: ' + err)
+            console.error('body.error: ' + body.error)
 
             res.redirect('/question/create')
         }
-
-        //body = JSON.parse(body)
-        fs.writeFileSync(`body.json`, JSON.stringify(body), 'utf8')
-        console.log(body)
-
     })
     res.redirect('/question/create')
 })

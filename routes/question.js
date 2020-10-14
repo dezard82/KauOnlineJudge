@@ -21,10 +21,10 @@ function question_list_test (req, res) {
 
         //표시할 문제 정보를 json 형태로 q_list에 push
         q_list[q_file._id] = {
-            _id: q_file._id,
+            _id: q_file.id,
             title: q_file.title,
-            tags: q_file.tags,
-            submit: (router.submit[q_file._id] == undefined ? '' : router.submit[q_file._id])
+            tags: q_file.tags
+            //submit: (router.submit[q_file._id] == undefined ? '' : router.submit[q_file._id])
         }
     })
 
@@ -79,7 +79,7 @@ function question_list (req, res) {
         } else {
             body.data.results.forEach((q) => {
                 q_list.push( {
-                    _id: q._id,
+                    id: q.id,
                     title: q.title,
                     tags: q.tags,
                     submit: ''
@@ -99,11 +99,11 @@ function question_list (req, res) {
 }
 
 function question (req, res) {  //한 문제의 정보 및 해답 제출란
-    let _id = req.params._id
-    router.build.message = `question no.${_id}`
+    let id = req.params.id
+    router.build.message = `question no.${id}`
 
     request.get({
-        uri: `http://dofh.iptime.org:8000/api/problem?problem_id=${_id}`
+        uri: `http://dofh.iptime.org:8000/api/problem?problem_id=${id}`
     }, (err, serverRes, body) => {
         if (err || body.error) {
             console.error('err: ' + err)
@@ -115,7 +115,7 @@ function question (req, res) {  //한 문제의 정보 및 해답 제출란
                 
                 //문제 정보를 question.pug에 넘겨 문제 페이지를 생성
                 router.build.page = 'question'
-                router.build.param.title = `${_id}. ${body.data.title}`
+                router.build.param.title = `${id}. ${body.data.title}`
                 router.build.param.q = body.data
                 //router.build.param.submit = ''/* router.submit[_id] */
             } catch (err) { //          　 없는 경우
@@ -133,6 +133,6 @@ function question (req, res) {  //한 문제의 정보 및 해답 제출란
 
 router.get('/', question_list)
 
-router.get('/:_id', question)
+router.get('/:id', question)
 
 module.exports = router
