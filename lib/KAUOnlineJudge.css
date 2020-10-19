@@ -14,6 +14,11 @@
     color: white;
 }
 
+input[type=checkbox] {
+    width:12px;
+    height:12px;
+}
+
 footer {
     clear: both;
     background-color: #eeeeee;

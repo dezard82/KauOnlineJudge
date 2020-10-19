@@ -27,6 +27,4 @@ app.use('/register',    require('./routes/register')) //회원가입 페이지
 app.use('/',            require('./routes/root'))     //기본 페이지
 app.use('/user',        require('./routes/user'))     //사용자 정보 페이지
 
-//app.use('/write', writeRouter)
-
 app.listen(8080, function() {})

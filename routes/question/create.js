@@ -1,18 +1,17 @@
-const fs = require('fs')
 const request = require('request')
 
-const myRouter = require('../lib/myRouter')
+const myRouter = require('../../lib/myRouter')
 
 const router = myRouter.Router()
 
 router.get('/', (req, res) => {
-    if (req.user == undefined) res.redirect('/question')
+    if (req.user === undefined) res.redirect('/question')
     
     else {
         router.build = {
             code: 200,
-            page: 'question_create',
-            message: 'question_create',
+            page: 'question/create',
+            message: 'questioncreate',
             param: {
                 title: 'Question Create'
             }
@@ -32,6 +31,11 @@ router.post('/', (req, res) => {
     for (let i in post.tags) {
         post.tags[i] = post.tags[i].trim()
     }
+    
+    post.languages = post.languages.split(',')
+    for (let i in post.languages) {
+        post.languages[i] = post.languages[i].trim()
+    }
 
     post.samples = []
 
@@ -44,7 +48,11 @@ router.post('/', (req, res) => {
 
     post.input = undefined
     post.output = undefined
+
     post._id = new Date().getTime()
+
+    post.share_submission = (post.share_submission === 'on') ? true : false
+    post.visible = (post.visible === 'on') ? true : false
 
     const question_create = {
         uri: 'http://dofh.iptime.org:8000/api/problem',
@@ -58,13 +66,14 @@ router.post('/', (req, res) => {
 
     request.post(question_create, (err, serverRes, body) => {
         if (err || body.error) {     //문제 작성 요청에 실패한 경우 
-            console.error('err: ' + err)
+            console.error('err       : ' + err)
             console.error('body.error: ' + body.error)
 
             res.redirect('/question/create')
+        } else {
+            res.redirect('/question')
         }
     })
-    res.redirect('/question/create')
 })
 
 module.exports = router
