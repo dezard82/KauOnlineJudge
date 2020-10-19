@@ -4,6 +4,12 @@
     font-family: 'Nanum Gothic';
 }
 
+.m_b {
+    margin-bottom: 30px;
+}
+.hide {
+    display: none;
+}
 .text-white {
     color: white;
 }

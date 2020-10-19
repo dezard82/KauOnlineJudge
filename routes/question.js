@@ -79,7 +79,7 @@ function question_list (req, res) {
         } else {
             body.data.results.forEach((q) => {
                 q_list.push( {
-                    id: q.id,
+                    id: q._id,
                     title: q.title,
                     tags: q.tags,
                     submit: ''
@@ -131,8 +131,39 @@ function question (req, res) {  //한 문제의 정보 및 해답 제출란
     })
 }
 
+function question_post (req, res) {
+    let id = req.params.id
+    //form에서 받아온 정보의 집합
+    const post = req.body
+
+    //request로 전송할 문제풀이 정보
+    const question_create = {
+        uri: 'http://dofh.iptime.org:8000/api/submission',
+        headers: {
+            'X-Csrftoken': req.user.csrftoken,
+            Cookie: `sessionid=${req.user.sessionid};csrftoken=${req.user.csrftoken};`,
+            'Content-Type': 'application/json'
+        },
+        json: post
+    }
+
+    request.post(question_create, (err, serverRes, body) => {
+        if (err || body.error) {
+            console.error('err: ' + err)
+            console.error('body.error: ' + body.error)
+            console.log(body)
+            res.redirect(`/question/${id}`)
+        } else {
+            //body = JSON.parse(body)
+            console.log(body)
+            res.redirect(`/question/${id}`)
+        }
+    })
+}
+
 router.get('/', question_list)
 
 router.get('/:id', question)
+router.post('/:id', question_post)
 
 module.exports = router

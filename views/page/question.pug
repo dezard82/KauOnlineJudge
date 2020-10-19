@@ -8,9 +8,6 @@ block content
             text-indent: 10px;
             margin-bottom: 3px;
         }
-        .m_b {
-            margin-bottom: 30px;
-        }
 
     h1= q.title
         //button.btn.btn-link(type='button' onclick="location.href='${my_url}/question_solver?num=${num}")
@@ -65,26 +62,35 @@ block content
                                 type='button' 
                                 onclick=`copyToClipboard(\'output_${i + 1}\')`
                             ) 복사
-                    pre#df.sampledata(id=`output_${i + 1}`)= s.output
+                    pre.sampledata(id=`output_${i + 1}`)= s.output
     
     // 문제의 답 제출
     hr
-    h5 언어
-    select.m_b#lang(name='lang')
-        option(value='0') C
-        option(value='1') C++
-        option(value='2') Java
-        option(value='3') Python
+    form#form(name='question' action=`/question/${q._id}` method='POST')
+        label(for='language') 언어
+        select.m_b.form-control#lang(name='language')
+            option(value='C') C
+            option(value='C++') C++
+            option(value='Java') Java
+            option(value='Python') Python
 
-    h5 소스 코드
-    textarea#code.form-control(
-        onkeydown='resize(this)'
-        onkeyup='resize(this)' 
-        rows='15' 
-        placeholder='여기에 코드를 입력해주세요'
-    )
-    br
-    a.btn.btn-primary.text-white(role='button') 제출
+        label(for='code') 소스 코드
+        textarea#code.form-control.m_b(
+            name='code'
+            onkeydown='resize(this)'
+            onkeyup='resize(this)' 
+            rows='15' 
+            placeholder='여기에 코드를 입력해주세요'
+        )
+        input.form-control.hide(
+            name='problem_id'
+            value=`${q._id}`
+        )
+        input.form-control.hide(
+            name='contest_id'
+            value=`${q.id}`
+        )
+        button#join-submit.btn.btn-primary.m-auto(type='submit') 제출
 
     script(type='text/javascript' src='KAUOnlineJudge.js')
         
