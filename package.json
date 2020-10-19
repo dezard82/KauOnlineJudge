@@ -1,6 +1,6 @@
 {
   "name": "kauonlinejudge",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "KAU Online Judge",
   "main": "app.js",
   "directories": {
