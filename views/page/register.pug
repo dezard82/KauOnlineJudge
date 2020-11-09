@@ -1,9 +1,6 @@
 extends ../page
 
 block content
-    -if (flash.error != undefined)
-        script.
-            alert(!{JSON.stringify(flash.error)})
     article.card-body
         h4.card-title.mb-4.mt-1 회원가입
         form(name='register' action='/register' method='POST')

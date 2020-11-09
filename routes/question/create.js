@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
         router.build = {
             code: 200,
             page: 'question/create',
-            message: 'questioncreate',
+            message: 'question create',
             param: {
                 title: 'Question Create'
             }
@@ -32,13 +32,31 @@ router.post('/', (req, res) => {
         post.tags[i] = post.tags[i].trim()
     }
     
-    post.languages = post.languages.split(',')
+    //페이지에서 받아온 언어 집합 ','로 나눈 뒤 앞뒤 공백을 제거한다
+    /* post.languages = post.languages.split(',')
     for (let i in post.languages) {
         post.languages[i] = post.languages[i].trim()
-    }
+    } */
 
+    //추가할 문제를 풀 수 있는 언어 종류를 배열로 전송
+    post.languages = []
+    //가능한 언어를 post.languages에 삽입
+    if (post['C'] === 'on')         post.languages.push('C')
+    if (post['C++'] === 'on')       post.languages.push('C++')
+    if (post['Java'] === 'on')      post.languages.push('Java')
+    if (post['Python2'] === 'on')   post.languages.push('Python2')
+    if (post['Python3'] === 'on')   post.languages.push('Python3')
+    //post[언어]는 백엔드 스키마에 없으므로 제거
+    delete post['C']
+    delete post['C++']
+    delete post['Java']
+    delete post['Python2']
+    delete post['Python3']
+
+    //추가할 문제의 예제를 객체의 배열로 전송
     post.samples = []
 
+    //예제 입력의 배열과 예제 출력의 배열을 백엔드 스키마에 맞게 바꾼다
     for (let i in post.input) {
         post.samples.push({
             input: post.input[i],
@@ -46,14 +64,20 @@ router.post('/', (req, res) => {
         })
     }
 
-    post.input = undefined
-    post.output = undefined
+    //백엔드에서 사용하지 않는 변수는 제거
+    /* post.input = undefined
+    post.output = undefined */
+    delete post.input
+    delete post.output
 
+    //문제의 id는 항상 unique해야 하므로 생성 시간을 id로 지정
     post._id = new Date().getTime()
 
-    post.share_submission = (post.share_submission === 'on') ? true : false
-    post.visible = (post.visible === 'on') ? true : false
-
+    //체크박스의 on, off를 true, false로 변경
+    post.share_submission = post.share_submission === 'on'
+    post.visible = post.visible === 'on'
+    
+    //request로 전송할 문제 정보
     const question_create = {
         uri: 'http://dofh.iptime.org:8000/api/problem',
         headers: {

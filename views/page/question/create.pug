@@ -22,8 +22,19 @@ block content
                 input#tags.form-control(name='tags' placeholder='태그를 쉼표(,)로 구분하여 입력')
             // 언어
             .form-group
-                label(for='languages') 언어
-                input#tags.form-control(name='languages' placeholder='사용 가능한 언어를 쉼표(,)로 구분하여 입력')
+                label(for='languages') 언어 
+                br
+                input(type='checkbox' name='C')
+                |  C &nbsp;
+                input(type='checkbox' name='C++')
+                |  C++ &nbsp;
+                input(type='checkbox' name='Java')
+                |  Java &nbsp;
+                input(type='checkbox' name='Python2')
+                |  Python2 &nbsp;
+                input(type='checkbox' name='Python3')
+                |  Python3 &nbsp;
+                //input#tags.form-control(name='languages' placeholder='사용 가능한 언어를 쉼표(,)로 구분하여 입력')
             // 문제 설명
             .form-group
                 label(for='description') 문제 설명
@@ -39,11 +50,11 @@ block content
             .form-group#samples
 
             //share_submission
-            .form-group.row
-                    input.form-control(type='checkbox' id='share_submission' name='share_submission' checked)
-                    | &nbsp;share_submission
-                    input.form-control(type='checkbox' id='visible' name='visible' checked)
-                    | &nbsp;visible
+            .form-group
+                input(type='checkbox' checked name='share_submission')
+                |  share_submission &nbsp;
+                input(type='checkbox' checked name='visible')
+                |  visible &nbsp;
             
             //예제 추가 / 취소/제출하기
             .form-group.row

@@ -1,9 +1,6 @@
 extends ../page
 
 block content
-    -if (flash.error != undefined)
-        script.
-            alert(!{JSON.stringify(flash.error)})
     article.card-body
         a.float-right.btn.btn-outline-primary(href='/register') 회원가입
         h4.card-title.mb-4.mt-1 로그인
