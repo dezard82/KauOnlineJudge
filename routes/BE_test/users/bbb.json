@@ -1,9 +1,0 @@
-{
-    "username":"bbb",
-    "email":"bbb@aaa.com",
-    "password":"121212",
-    "submit": {
-        "1": "정답",
-        "3": "오답"
-    }
-}

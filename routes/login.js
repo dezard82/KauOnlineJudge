@@ -13,26 +13,6 @@ passport.use(new LocalStrategy({
     },  login_post
 ))
 
-function login_post_test (username, password, done) {
-    //로그인 시 id값으로 email을 받았을 경우 이를 username으로 변환함
-    username = username.split('@')[0]
-
-    //임시 BE 폴더에 존재하는 사용자 데이터 집합
-    const filelist = fs.readdirSync(__dirname + '/BE_test/users')
-    //입력받은 사용자 정보가 fiellist에 존재하는 경우 사용자 정보, 없다면 undefined
-    const user_BE = (filelist.includes(`${username}.json`)) ? 
-        JSON.parse(fs.readFileSync(__dirname + `/BE_test/users/${username}.json`).toString())
-      : undefined
-
-    if (user_BE == undefined) {                 //사용자 정보를 찾지 못한 경우
-        return done(null, false, { message: 'Incorrect username.' })
-    } else if (password != user_BE.password){   //비밀번호가 일치하지 않는 경우
-        return done(null, false, { message: 'Incorrect password.' })
-    } 
-
-    //위의 모든 경우를 통과하였다면 사용자를 정상적으로 로그인시킨다
-    return done(null, user_BE)
-}
 
 function login_post (username, password, done) {
     //request로 전송할 데이터 집합

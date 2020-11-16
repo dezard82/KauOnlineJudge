@@ -5,69 +5,6 @@ const myRouter = require('../lib/myRouter')
 
 const router = myRouter.Router()
 
-function register_post_test (req, res) {
-    const filelist = fs.readdirSync(__dirname + '/BE_test/users')
-    var post = req.body
-    var username = post.username
-
-    if (post.password != post.password_check) {
-        //비밀번호와 비밀번호 확인이 일치하지 않는다면
-        //경고창을 표시한 뒤 다시 회원가입 페이지로 이동
-        req.flash('error', 'Password not matched!')
-        console.log('password != password_check')
-        
-        req.session.save(() => {
-            res.redirect('back')
-        })
-    
-        return false
-    } else if (post.agree != 'on') {
-        //이용약관에 동의하지 않는다면
-        //경고창을 표시한 뒤 다시 회원가입 페이지로 이동
-        req.flash('error', 'Please Agree to the Terms of Use!')
-        console.log('terms of use unchecked')
-        
-        req.session.save(() => {
-            res.redirect('back')
-        })
-    
-        return false
-    }
-
-    //임시 백엔드에 저장할 사용자 정보
-    const user = {
-        "username": username,
-        "email": post.email,
-        "password": post.password,
-        "submit": {}
-    }
-
-    //이미 회원정보가 존재한다면 회원가입 거부
-    if (filelist.includes(`${username}.json`)) {
-        req.flash('error', `Username ${username} already exists!`)
-        console.error(`${username} already exists`)
-        
-        req.session.save(() => {
-            res.redirect('back')
-        })
-    
-        return false
-    } 
-    
-    //회원 정보를 임시 백엔드에 저장한 뒤
-    fs.writeFileSync(
-        __dirname + `/BE_test/users/${username}.json`, 
-        JSON.stringify(user) ,'utf8'
-    )
-    //회원가입 메세지를 띄운 뒤 로그인 페이지로 리다이렉트
-    req.flash('error', 'You have successfully registered!\nNow you can log in.')
-    console.log(`${username} has registered!`)
-    
-    req.session.save(() => {
-        res.redirect('/login')
-    })
-}
-
 function register_post (req, res) {
     //form에서 받아온 정보의 집합
     var post = req.body
