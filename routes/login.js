@@ -77,7 +77,8 @@ router.post('/',                        //passport로 로그인한 뒤 미리 �
     passport.authenticate('local', {
         failureRedirect: '/login',
         failureFlash: true
-    }), (req, res) => {
+    }),
+    (req, res) => {
         //세션을 저장하지 않으면 로그인 반영이 늦어짐
         req.session.save(() => {
             //이전에 설정한 리다이렉트를 제거한 뒤 리다이렉트

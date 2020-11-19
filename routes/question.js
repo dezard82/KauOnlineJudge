@@ -8,7 +8,7 @@ const router = myRouter.Router()
 // 문제 리스트, 문제 생성, 문제 제출 화면은 라우팅을 이용해 다른 파일에 정의
 router.use('/',             require('./question/list'))
 router.use('/create',       require('./question/create'))
-router.use('/submissions',  require('./question/submissions'))
+router.use('/submission',  require('./question/submission'))
 //router.use('/:id',          require('./question/question'))
 
 // 파일 분리를 시도했으나 에러가 발생하여 부득이하게 이 파일에 삽입함
@@ -70,7 +70,8 @@ function question_post (req, res) {
             res.redirect(`/question/${id}`)
         } else {
             //제출한 문제의 id와 사용자 이름을 쿼리로 넘기면서 제출 목록을 확인
-            res.redirect(`/question/submissions?id=${id}&username=${req.user.username}`)
+            // res.redirect(`/question/submission/${body.data.submission_id}`)
+            res.redirect(`/question/submission?id=${id}&username=${req.user.username}`)
         }
     })
 }
