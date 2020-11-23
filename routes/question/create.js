@@ -4,9 +4,14 @@ const myRouter = require('../../lib/myRouter')
 
 const router = myRouter.Router()
 
+const bodyParser = require('body-parser')
+router.use(bodyParser.json())
+
+const multer = require('multer')
+
 router.get('/', (req, res) => {
     if (req.user === undefined) res.redirect('/question')
-    
+
     else {
         router.build = {
             code: 200,
@@ -22,7 +27,10 @@ router.get('/', (req, res) => {
     }
 })
 
-router.post('/', (req, res) => {
+
+var storage = multer.memoryStorage()
+var upload = multer({storage})
+router.post('/', upload.single('test_case_file'), (req, res) => {
     //form에서 받아온 정보의 집합
     const post = req.body
 
@@ -31,7 +39,7 @@ router.post('/', (req, res) => {
     for (let i in post.tags) {
         post.tags[i] = post.tags[i].trim()
     }
-    
+
     //페이지에서 받아온 언어 집합 ','로 나눈 뒤 앞뒤 공백을 제거한다
     /* post.languages = post.languages.split(',')
     for (let i in post.languages) {
@@ -41,11 +49,11 @@ router.post('/', (req, res) => {
     //추가할 문제를 풀 수 있는 언어 종류를 배열로 전송
     post.languages = []
     //가능한 언어를 post.languages에 삽입
-    if (post['C'] === 'on')         post.languages.push('C')
-    if (post['C++'] === 'on')       post.languages.push('C++')
-    if (post['Java'] === 'on')      post.languages.push('Java')
-    if (post['Python2'] === 'on')   post.languages.push('Python2')
-    if (post['Python3'] === 'on')   post.languages.push('Python3')
+    if (post['C'] === 'on') post.languages.push('C')
+    if (post['C++'] === 'on') post.languages.push('C++')
+    if (post['Java'] === 'on') post.languages.push('Java')
+    if (post['Python2'] === 'on') post.languages.push('Python2')
+    if (post['Python3'] === 'on') post.languages.push('Python3')
     //post[언어]는 백엔드 스키마에 없으므로 제거
     delete post['C']
     delete post['C++']
@@ -64,39 +72,75 @@ router.post('/', (req, res) => {
         })
     }
 
-    //백엔드에서 사용하지 않는 변수는 제거
-    /* post.input = undefined
-    post.output = undefined */
-    delete post.input
-    delete post.output
 
-    //문제의 id는 항상 unique해야 하므로 생성 시간을 id로 지정
-    post._id = new Date().getTime()
-
-    //체크박스의 on, off를 true, false로 변경
-    post.share_submission = post.share_submission === 'on'
-    post.visible = post.visible === 'on'
-    
-    //request로 전송할 문제 정보
-    const question_create = {
-        uri: 'http://dofh.iptime.org:8000/api/problem',
+    //테스트케이스 추가
+    var test_case_req = request.post('http://dofh.iptime.org:8000/api/test_case', {
         headers: {
             'X-Csrftoken': req.user.csrftoken,
             Cookie: `sessionid=${req.user.sessionid};csrftoken=${req.user.csrftoken};`,
-            'Content-Type': 'application/json'
+            'Content-Type': 'multipart/form-data'
         },
-        json: post
-    }
-
-    request.post(question_create, (err, serverRes, body) => {
-        if (err || body.error) {     //문제 작성 요청에 실패한 경우 
+    }, (err, serverRes, body) => {
+        if (err) {     //테스트케이스 추가 요청에 실패한 경우 
             console.error('err       : ' + err)
+            
+            res.redirect('/question/create')
+            return null
+        } else if (body.error) {
             console.error('body.error: ' + body.error)
+            console.error('body.data: ' + body.data)
 
             res.redirect('/question/create')
+            return null
         } else {
-            res.redirect('/question')
+            //데이터에 테스트케이스 추가
+            body = JSON.parse(body)
+            post.test_case_id = body.data.id
+            post.test_case_score = [{input_name: "1.in", output_name: "1.out", score: post.test_case_score}]
+
+            // post.test_case_id = body.data.id
+            //백엔드에서 사용하지 않는 변수는 제거
+            /* post.input = undefined
+            post.output = undefined */
+            delete post.input
+            delete post.output
+
+            //문제의 id는 항상 unique해야 하므로 생성 시간을 id로 지정
+            post._id = new Date().getTime()
+
+            //체크박스의 on, off를 true, false로 변경
+            post.share_submission = post.share_submission === 'on'
+            post.visible = post.visible === 'on'
+
+            //request로 전송할 문제 정보
+            const question_create = {
+                uri: 'http://dofh.iptime.org:8000/api/problem',
+                headers: {
+                    'X-Csrftoken': req.user.csrftoken,
+                    Cookie: `sessionid=${req.user.sessionid};csrftoken=${req.user.csrftoken};`,
+                    'Content-Type': 'application/json'
+                },
+                json: post
+            }
+
+            request.post(question_create, (err, serverRes, body) => {
+                if (err || body.error) {     //문제 작성 요청에 실패한 경우 
+                    console.error('err       : ' + err)
+                    console.error('body.error: ' + body.error)
+
+                    res.redirect('/question/create')
+                } else {
+                    res.redirect('/question/' + body.data._id)
+                }
+            })
         }
+    })
+    
+    var formData = test_case_req.form()
+    formData.append('spj', "false")
+    formData.append('file', req.file.buffer, {
+        filename: '1.zip',
+        contentType: 'application/zip'
     })
 })
 
