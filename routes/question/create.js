@@ -9,6 +9,8 @@ router.use(bodyParser.json())
 
 const multer = require('multer')
 
+const _ = require('lodash')
+
 router.get('/', (req, res) => {
     if (req.user === undefined) res.redirect('/question')
 
@@ -27,9 +29,11 @@ router.get('/', (req, res) => {
     }
 })
 
-
+// bodyParser: multipart/form-data 형식으로 입력받은 데이터를 json 형식으로 변환해준다.
+// multer: multipart/form-data 형식으로 입력받은 파일을 저장해준다.
+// 아래는 파일을 메모리에 저장해두고 나중에 POST의 formdata에 추가한다.
 var storage = multer.memoryStorage()
-var upload = multer({storage})
+var upload = multer({ storage })
 router.post('/', upload.single('test_case_file'), (req, res) => {
     //form에서 받아온 정보의 집합
     const post = req.body
@@ -61,16 +65,32 @@ router.post('/', upload.single('test_case_file'), (req, res) => {
     delete post['Python2']
     delete post['Python3']
 
-    //추가할 문제의 예제를 객체의 배열로 전송
-    post.samples = []
 
+    post.description = _.escape(post.description)
+    post.input_description = _.escape(post.input_description)
+    post.output_description = _.escape(post.output_description)
+
+    //추가할 문제의 예제를 객체의 배열로 전송
     //예제 입력의 배열과 예제 출력의 배열을 백엔드 스키마에 맞게 바꾼다
-    for (let i in post.input) {
-        post.samples.push({
-            input: post.input[i],
-            output: post.output[i]
-        })
+    post.samples = []
+    if (post.input !== undefined) {
+        if (typeof (post.input) === "string") {
+            post.samples.push({ input: post.input, output: post.output })
+        } else {
+            for (i = 0; i < post.input.length; i++) {
+                post.samples.push({
+                    input: post.input[i],
+                    output: post.output[i]
+                })
+            }
+        }
     }
+
+
+
+    // 일부 변수들을 임의로 지정
+    post.rule_type = "ACM"
+    post.spj = false
 
 
     //테스트케이스 추가
@@ -83,7 +103,7 @@ router.post('/', upload.single('test_case_file'), (req, res) => {
     }, (err, serverRes, body) => {
         if (err) {     //테스트케이스 추가 요청에 실패한 경우 
             console.error('err       : ' + err)
-            
+
             res.redirect('/question/create')
             return null
         } else if (body.error) {
@@ -96,7 +116,7 @@ router.post('/', upload.single('test_case_file'), (req, res) => {
             //데이터에 테스트케이스 추가
             body = JSON.parse(body)
             post.test_case_id = body.data.id
-            post.test_case_score = [{input_name: "1.in", output_name: "1.out", score: post.test_case_score}]
+            post.test_case_score = [{ input_name: "1.in", output_name: "1.out", score: post.test_case_score }]
 
             // post.test_case_id = body.data.id
             //백엔드에서 사용하지 않는 변수는 제거
@@ -135,7 +155,8 @@ router.post('/', upload.single('test_case_file'), (req, res) => {
             })
         }
     })
-    
+
+    // formdata에 파일 추가
     var formData = test_case_req.form()
     formData.append('spj', "false")
     formData.append('file', req.file.buffer, {

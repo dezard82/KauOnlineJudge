@@ -74,4 +74,36 @@ router.get('/:id', (req, res) => {
     // })
 })
 
+// 파일 분리를 시도했으나 에러가 발생하여 부득이하게 이 파일에 삽입함
+router.post('/:id', (req, res) => {
+    let id = req.params.id
+    //form에서 받아온 정보의 집합
+    const post = req.body
+
+    if (req.user === undefined) res.redirect('/login')
+
+    //request로 전송할 문제풀이 정보
+    const question_create = {
+        uri: 'http://dofh.iptime.org:8000/api/submission',
+        headers: {
+            'X-Csrftoken': req.user.csrftoken,
+            Cookie: `sessionid=${req.user.sessionid};csrftoken=${req.user.csrftoken};`,
+            'Content-Type': 'application/json'
+        },
+        json: post
+    }
+
+    request.post(question_create, (err, serverRes, body) => {
+        if (err || body.error) {
+            console.error('err       : ' + err)
+            console.error('body.error: ' + body.data)
+            res.redirect(`/question/${id}`)
+        } else {
+            //제출한 문제의 id와 사용자 이름을 쿼리로 넘기면서 제출 목록을 확인
+            // res.redirect(`/question/submission/${body.data.submission_id}`)
+            res.redirect(`/question/submission?id=${id}&username=${req.user.username}`)
+        }
+    })
+})
+
 module.exports = router

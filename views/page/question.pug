@@ -21,8 +21,8 @@ block content
                 th 사용 가능한 언어
         tbody
             tr 
-                td= q.time_limit + ' (초)'
-                td= q.memory_limit
+                td= q.time_limit + ' (ms)'
+                td= q.memory_limit + ' (Mb)'
                 td
                     +tags(q.tags)
                 td 
@@ -67,7 +67,7 @@ block content
     
     // 문제의 답 제출
     hr
-    form#form(name='question' action=`/question/${q._id}` method='POST')
+    form#form(name='question' action=`/question/submission/${q._id}` method='POST')
         label(for='language') 언어
         select.m_b.form-control#lang(name='language')
             each lan in q.languages
@@ -83,7 +83,30 @@ block content
             name='problem_id'
             value=`${q.id}`
         )
-        button#join-submit.btn.btn-primary.m-auto(type='submit') 제출
+        button#join-submit.btn.btn-primary.m-auto.float-right(type='submit') 제출
+
+        -if (owner === true)
+            div#delete-check-button.btn.btn-danger.m-auto.float-right(onclick="delete_modal()") 문제 삭제
+            <div id="delete-modal" class="modal" tabindex="-1" role="dialog" style="display: none;justify-content: center;align-items: center;">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">문제 삭제</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick=delete_modal()>
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>정말로 문제를 삭제하겠습니까?</p>
+                        </div>
+                        <div class="modal-footer">
+                            button.btn.btn-danger(type="submit" name="delete" formaction=`/question/delete/${q.id}`) 문제 삭제
+                            //- a.btn.btn-danger(type="button" data-method="delete" href=`/question/delete?id=${q.id}`) 문제 삭제
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick=delete_modal()>취소</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
     script(type='text/javascript' src='KAUOnlineJudge.js')
         
