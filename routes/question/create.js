@@ -12,8 +12,7 @@ const multer = require('multer')
 const _ = require('lodash')
 
 router.get('/', (req, res) => {
-    if (req.user === undefined) res.redirect('/question')
-
+    if (req.user === undefined) res.redirect('/login')
     else {
         router.build = {
             code: 200,
@@ -35,6 +34,8 @@ router.get('/', (req, res) => {
 var storage = multer.memoryStorage()
 var upload = multer({ storage })
 router.post('/', upload.single('test_case_file'), (req, res) => {
+    if (req.user === undefined) res.redirect('/login')
+
     //form에서 받아온 정보의 집합
     const post = req.body
 
@@ -157,12 +158,15 @@ router.post('/', upload.single('test_case_file'), (req, res) => {
     })
 
     // formdata에 파일 추가
-    var formData = test_case_req.form()
-    formData.append('spj', "false")
-    formData.append('file', req.file.buffer, {
-        filename: '1.zip',
-        contentType: 'application/zip'
-    })
+    if(req.file !== undefined){
+        var formData = test_case_req.form()
+        formData.append('spj', "false")
+        formData.append('file', req.file.buffer, {
+            filename: '1.zip',
+            contentType: 'application/zip'
+        })
+    }
+
 })
 
 module.exports = router

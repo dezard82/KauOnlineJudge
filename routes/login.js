@@ -7,10 +7,12 @@ const myRouter = require('../lib/myRouter')
 
 const router = myRouter.Router()
 
-passport.use(new LocalStrategy({
-        usernameField: 'username',
-        passwordField: 'password'
-    },  login_post
+passport.use(new LocalStrategy(
+    // {
+    //     usernameField: 'username',
+    //     passwordField: 'password'
+    // }
+    login_post
 ))
 
 

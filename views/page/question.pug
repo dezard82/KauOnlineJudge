@@ -66,10 +66,13 @@ block content
                     pre.sampledata(id=`output_${i + 1}`)= s.output
     
     // 문제의 답 제출
+    
     hr
     form#form(name='question' action=`/question/submission/${q._id}` method='POST')
+        - var attributes = {}
+        - if (user === undefined) attributes.disabled = 'disabled'
         label(for='language') 언어
-        select.m_b.form-control#lang(name='language')
+        select.m_b.form-control#lang(name='language')&attributes(attributes)
             each lan in q.languages
                 option(value=lan)= lan
 
@@ -77,15 +80,16 @@ block content
         textarea#code.form-control.m_b(
             name='code'
             rows='15' 
-            placeholder='여기에 코드를 입력해주세요'
-        )
+            placeholder='여기에 코드를 입력해주세요' 
+        )&attributes(attributes)
         input.form-control.hide(
             name='problem_id'
             value=`${q.id}`
         )
-        button#join-submit.btn.btn-primary.m-auto.float-right(type='submit') 제출
+        button#join-submit.btn.btn-primary.m-auto.float-right(type='submit')&attributes(attributes) 제출#{user !== undefined ? '' : "하려면 로그인을 해주세요"}
 
         -if (owner === true)
+            button#update.btn.btn-primary.m-auto.float-right(type='button' onclick=`location.href='/question/update/${q.id}'`)&attributes(attributes) 문제 수정
             div#delete-check-button.btn.btn-danger.m-auto.float-right(onclick="delete_modal()") 문제 삭제
             <div id="delete-modal" class="modal" tabindex="-1" role="dialog" style="display: none;justify-content: center;align-items: center;">
                 <div class="modal-dialog" role="document">

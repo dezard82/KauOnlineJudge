@@ -1,4 +1,3 @@
-const fs = require('fs')
 const request = require('request')
 
 const myRouter = require('../lib/myRouter')
@@ -11,6 +10,7 @@ const _ = require('lodash')
 router.use('/', require('./question/list'))
 router.use('/create', require('./question/create'))
 router.use('/delete', require('./question/delete'))
+router.use('/update', require('./question/update'))
 router.use('/submission', require('./question/submission'))
 //router.use('/:id',          require('./question/question'))
 
@@ -23,7 +23,7 @@ router.get('/:id', (req, res) => {  // 한 문제의 정보 및 해답 제출란
         uri: `http://dofh.iptime.org:8000/api/problem?problem_id=${id}`
     }, (err, serverRes, body) => {
         body = JSON.parse(body)
-        
+
         body.data.description = _.unescape(body.data.description)
         body.data.input_description = _.unescape(body.data.input_description)
         body.data.output_description = _.unescape(body.data.output_description)
@@ -37,7 +37,7 @@ router.get('/:id', (req, res) => {  // 한 문제의 정보 및 해답 제출란
                 router.build.page = 'question'
                 router.build.param.title = `${id}. ${body.data.title}`
                 router.build.param.q = body.data
-                router.build.param.owner = req.user.username === body.data.created_by.username
+                router.build.param.owner = req.user ? req.user.username === body.data.created_by.username : undefined
                 // router.build.param.submit = ''/* router.submit[_id] */
             } catch (err) { // 문제 페이지가 없는 경우
                 console.error(err)
@@ -51,7 +51,6 @@ router.get('/:id', (req, res) => {  // 한 문제의 정보 및 해답 제출란
         }
     })
 })
-
 
 
 module.exports = router
