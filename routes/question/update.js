@@ -113,7 +113,6 @@ router.post('/:id', upload.single('test_case_file'), (req, res) => {
     delete post['Python2']
     delete post['Python3']
 
-
     post.title = _.escape(post.title)
     post.description = _.escape(post.description)
     post.input_description = _.escape(post.input_description)

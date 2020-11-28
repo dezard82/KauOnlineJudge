@@ -86,31 +86,24 @@ block content
             name='problem_id'
             value=`${q.id}`
         )
-        button#join-submit.btn.btn-primary.m-auto.float-right(type='submit')&attributes(attributes) 제출#{user !== undefined ? '' : "하려면 로그인을 해주세요"}
+        button#join-submit.btn.btn-primary.float-right.m-2(type='submit')&attributes(attributes) 제출#{user !== undefined ? '' : "하려면 로그인을 해주세요"}
 
         -if (owner === true)
-            button#update.btn.btn-primary.m-auto.float-right(type='button' onclick=`location.href='/question/update/${q.id}'`)&attributes(attributes) 문제 수정
-            div#delete-check-button.btn.btn-danger.m-auto.float-right(onclick="delete_modal()") 문제 삭제
-            <div id="delete-modal" class="modal" tabindex="-1" role="dialog" style="display: none;justify-content: center;align-items: center;">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">문제 삭제</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick=delete_modal()>
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>정말로 문제를 삭제하겠습니까?</p>
-                        </div>
-                        <div class="modal-footer">
-                            button.btn.btn-danger(type="submit" name="delete" formaction=`/question/delete/${q.id}`) 문제 삭제
-                            //- a.btn.btn-danger(type="button" data-method="delete" href=`/question/delete?id=${q.id}`) 문제 삭제
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick=delete_modal()>취소</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            button#update.btn.btn-primary.float-right.m-2(type='button' onclick=`location.href='/question/update/${q.id}'`)&attributes(attributes) 문제 수정
+            div#delete-check-button.btn.btn-danger.float-right.m-2(onclick="delete_modal()") 문제 삭제
+            
+            #delete-modal.modal(tabindex='-1' role='dialog' style='display: none;justify-content: center;align-items: center;')
+                .modal-dialog(role='document')
+                    .modal-content
+                        .modal-header
+                            h5.modal-title 문제 삭제
+                            button.close(type='button' data-dismiss='modal' aria-label='Close' onclick='delete_modal()')
+                                span(aria-hidden='true') &times;
+                        .modal-body
+                            p 정말로 문제를 삭제하겠습니까?
+                        .modal-footer
+                            button.btn.btn-danger(type='submit' name='delete' formaction=`/question/delete/${q.id}`) 문제 삭제
+                            button.btn.btn-secondary(type='button' data-dismiss='modal' onclick='delete_modal()') 취소 
+                            
     script(type='text/javascript' src='KAUOnlineJudge.js')
-        
+    

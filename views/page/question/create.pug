@@ -52,7 +52,9 @@ block content
                 .row
                     .col-6
                         label(for='test_case_file') 테스트케이스 zip 파일 
-                        input#test_case_file.form-control(type="file", name="test_case_file")
+                        .custom-file
+                            input#test_case_file.form-control.custom-file-input(type="file", name='test_case_file')
+                            label.custom-file-label(for='test_case_file') 1.zip
                     .col-6
                         label(for='test_case_file') 점수
                         input#test_case_score.form-control(type="number", name="test_case_score", value=1, min=1, max=100)

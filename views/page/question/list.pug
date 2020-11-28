@@ -4,6 +4,11 @@ block content
     include ../../mixin
     table.table.table-striped.table-hover
         thead
+            colgroup
+                col(style='width:20%')
+                col(style='width:50%')
+                col(style='width:15%')
+                col(style='width:15%')
             tr
                 th #
                 th 문제 이름
@@ -11,15 +16,16 @@ block content
                 th 사용 가능한 언어
         tbody
             each q in q_list
-                tr
-                    td= q._id
-                    td
-                        a(href=`/question/${q._id}`) #{q.title}
-                    td
-                        +tags(q.tags)
-                    td 
-                        each lan in q.languages
-                            =lan + ' '
+                if (q.title != '')
+                    tr
+                        td= q._id
+                        td
+                            a(href=`/question/${q._id}`) #{q.title}
+                        td
+                            +tags(q.tags)
+                        td 
+                            each lan in q.languages
+                                =lan + ' '
         tfoot
             tr
                 td 

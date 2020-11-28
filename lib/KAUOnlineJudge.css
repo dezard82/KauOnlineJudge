@@ -68,3 +68,12 @@ a.tag:hover {
     background-color: #aaaaaa;
     color:white;
 }
+
+tr.invert {
+    display: block; 
+    float: left; 
+}
+th.invert,
+td.invert {
+    display: block; 
+}

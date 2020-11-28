@@ -11,6 +11,7 @@ router.use('/', require('./question/list'))
 router.use('/create', require('./question/create'))
 router.use('/delete', require('./question/delete'))
 router.use('/update', require('./question/update'))
+router.use('/recommend', require('./question/recommend'))
 router.use('/submission', require('./question/submission'))
 //router.use('/:id',          require('./question/question'))
 

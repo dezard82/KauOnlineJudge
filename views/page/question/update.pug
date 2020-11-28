@@ -57,10 +57,9 @@ block content
                 .row
                     .col-6
                         label(for='custum-file') 테스트케이스 zip 파일(기존의 파일 불러오기 불가능) 
-                        <div class="custom-file">
+                        .custom-file
                             input#test_case_file.form-control.custom-file-input(type="file", name='test_case_file')
-                            <label class="custom-file-label" for="test_case_file">1.zip</label>
-                        </div>
+                            label.custom-file-label(for='test_case_file') 1.zip
                     .col-6
                         label(for='test_case_score') 점수
                         - var score = data.test_case_score[0]
@@ -101,4 +100,3 @@ block content
                         | 문제 수정
         
     script(type='text/javascript' src='KAUOnlineJudge.js')
-        //document.createElement + document.querySelectAll 써보기

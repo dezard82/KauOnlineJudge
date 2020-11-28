@@ -23,10 +23,10 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.md-2
                     aria-expanded='false'
                 ) 문제
                 .dropdown-menu(aria-labelledby='navbarDropdown')
-                    a.dropdown-item(href='#') 추천 문제
-                    a.dropdown-item(href='#') 태그별 문제
-                    .dropdown-divider
                     a.dropdown-item(href='/question') 문제
+                    a.dropdown-item(href='/question/recommend') 추천 문제
+                    //a.dropdown-item(href='#') 태그별 문제
+                    //.dropdown-divider
             li.nav-item
                 a.nav-link(href=`/user`) #{(user == undefined) ? '내 정보' : user}
             li.nav-item
